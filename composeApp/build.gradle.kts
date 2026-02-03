@@ -7,6 +7,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core)
             implementation(projects.featureSplashScreen)
+            implementation(projects.core.designSystem)
+
         }
     }
 }

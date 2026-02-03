@@ -65,7 +65,7 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         implementation(libs.findLibrary("androidx-lifecycle-runtime-compose").get())
 
                         // Navigation
-                        implementation(libs.findLibrary("navigation3-ui").get())
+                        implementation(libs.findLibrary("navigation-compose").get())
 
                         // Coroutines
                         implementation(libs.findLibrary("kotlinx-coroutines-core").get())
@@ -83,7 +83,6 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                     commonTest.dependencies {
                         implementation(libs.findLibrary("kotlin-test").get())
                         implementation(libs.findLibrary("kotlinx-coroutines-test").get())
-                        implementation(libs.findLibrary("koin-test").get())
                     }
 
                     androidMain.dependencies {
@@ -93,9 +92,6 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
 
                         // AndroidX
                         implementation(libs.findLibrary("androidx-core-ktx").get())
-
-                        // Coroutines Android
-                        implementation(libs.findLibrary("kotlinx-coroutines-android").get())
 
                         // Koin Android
                         implementation(libs.findLibrary("koin-android").get())

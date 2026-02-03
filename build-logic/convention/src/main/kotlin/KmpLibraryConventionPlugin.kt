@@ -65,15 +65,11 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                     commonTest.dependencies {
                         implementation(libs.findLibrary("kotlin-test").get())
                         implementation(libs.findLibrary("kotlinx-coroutines-test").get())
-                        implementation(libs.findLibrary("koin-test").get())
                     }
 
                     androidMain.dependencies {
                         // Ktor Android engine
                         implementation(libs.findLibrary("ktor-client-okhttp").get())
-
-                        // Coroutines Android
-                        implementation(libs.findLibrary("kotlinx-coroutines-android").get())
 
                         // Koin Android
                         implementation(libs.findLibrary("koin-android").get())

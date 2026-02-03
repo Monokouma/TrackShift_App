@@ -19,6 +19,8 @@ dependencyResolutionManagement {
 
 include(":composeApp")
 include(":core")
+include(":core:design-system")
 include(":feature-splash-screen")
 
 
+include(":core:design-system")
