@@ -1,10 +1,10 @@
 plugins {
-    id("trackshift.kmp.feature")
+    id("trackshift.kmp.library")
 }
 
 kotlin {
     androidLibrary {
-        namespace = "com.despaircorp.design_system"
+        namespace = "com.despaircorp.navigation"
         compileSdk = 36
         minSdk = 28
     }

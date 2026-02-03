@@ -24,3 +24,5 @@ include(":feature-splash-screen")
 
 
 include(":core:design-system")
+
+include(":core:navigation")

@@ -8,7 +8,7 @@ kotlin {
             implementation(projects.core)
             implementation(projects.featureSplashScreen)
             implementation(projects.core.designSystem)
-
+            implementation(projects.core.navigation)
         }
     }
 }
