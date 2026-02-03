@@ -4,8 +4,8 @@ import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.compose.ComposeExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 class KmpFeatureConventionPlugin : Plugin<Project> {
@@ -58,6 +58,7 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         implementation(compose.material3)
                         implementation(compose.ui)
                         implementation(compose.components.resources)
+                        implementation(compose.components.uiToolingPreview)
                         implementation(compose.materialIconsExtended)
 
                         // Lifecycle & ViewModel
@@ -86,9 +87,8 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                     }
 
                     androidMain.dependencies {
-                        // Compose Tooling
-                        implementation(compose.uiTooling)
-                        implementation(compose.preview)
+                        // AndroidX Compose Tooling (required for Android Studio preview)
+                        implementation(libs.findLibrary("androidx-compose-ui-tooling").get())
 
                         // AndroidX
                         implementation(libs.findLibrary("androidx-core-ktx").get())

@@ -14,7 +14,10 @@ plugins {
 abstract class CreateFeatureTask : DefaultTask() {
 
     @get:Input
-    @get:Option(option = "name", description = "The name of the feature module (e.g., feature-auth-screen)")
+    @get:Option(
+        option = "name",
+        description = "The name of the feature module (e.g., feature-auth-screen)"
+    )
     abstract val featureName: Property<String>
 
     @get:Internal
@@ -54,6 +57,8 @@ abstract class CreateFeatureTask : DefaultTask() {
             File(rootDir, "$dir/.gitkeep").createNewFile()
         }
 
+        val packageName = "com.despaircorp.$packageSuffix"
+
         val buildGradleContent = """
             |plugins {
             |    id("trackshift.kmp.feature")
@@ -61,14 +66,18 @@ abstract class CreateFeatureTask : DefaultTask() {
             |
             |kotlin {
             |    androidLibrary {
-            |        namespace = "com.despaircorp.$packageSuffix"
+            |        namespace = "$packageName"
             |        compileSdk = 36
             |        minSdk = 28
+            |
+            |        experimentalProperties["android.experimental.kmp.enableAndroidResources"] = true
             |    }
             |
             |    sourceSets {
             |        commonMain.dependencies {
             |            implementation(projects.core)
+            |            implementation(projects.core.designSystem)
+            |            implementation(projects.core.navigation)
             |        }
             |    }
             |}

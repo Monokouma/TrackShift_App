@@ -69,8 +69,8 @@ buildkonfig = "0.17.1"
 napier = "2.7.1"
 composeWebview = "2.0.3"
 kotlinStdlib = "2.3.0"
-runner = "1.5.2"
-core = "1.5.0"
+runner = "1.7.0"
+core = "1.7.0"
 
 [libraries]
 # Kotlin Test
@@ -118,6 +118,12 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 
 # Navigation
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
+
+# Compose UI Tooling
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
+# AndroidX Compose UI Tooling (needed for Android Studio preview)
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 
 # Coil
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }

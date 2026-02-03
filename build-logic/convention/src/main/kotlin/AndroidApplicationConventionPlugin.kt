@@ -3,11 +3,10 @@ import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.getByType
 import org.jetbrains.compose.ComposeExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 
 class AndroidApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
@@ -42,13 +41,15 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 sourceSets.apply {
                     commonMain.dependencies {
                         // Compose
-
                         implementation(compose.runtime)
                         implementation(compose.foundation)
                         implementation(compose.material3)
                         implementation(compose.ui)
                         implementation(compose.components.resources)
                         implementation(compose.materialIconsExtended)
+
+                        // Preview
+                        implementation(libs.findLibrary("compose-ui-tooling-preview").get())
 
                         // Lifecycle & ViewModel
                         implementation(libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
@@ -76,9 +77,8 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                     }
 
                     androidMain.dependencies {
-                        // Compose Tooling
-                        implementation(compose.uiTooling)
-                        implementation(compose.preview)
+                        // AndroidX Compose Tooling (required for Android Studio preview)
+                        implementation(libs.findLibrary("androidx-compose-ui-tooling").get())
 
                         // AndroidX
                         implementation(libs.findLibrary("androidx-activity-compose").get())
