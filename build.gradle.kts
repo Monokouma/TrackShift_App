@@ -11,6 +11,11 @@ plugins {
     alias(libs.plugins.androidLint) apply false
 }
 
+// =============================================================================
+// FEATURE MODULE TASK
+// Creates feature modules with view_model and screen packages (UI layer only)
+// Usage: ./gradlew createFeature --name=feature-xxx
+// =============================================================================
 abstract class CreateFeatureTask : DefaultTask() {
 
     @get:Input
@@ -45,9 +50,8 @@ abstract class CreateFeatureTask : DefaultTask() {
         println("Creating feature module: $name")
 
         val directories = listOf(
-            "$name/src/commonMain/kotlin/$basePackage/data",
-            "$name/src/commonMain/kotlin/$basePackage/domain",
-            "$name/src/commonMain/kotlin/$basePackage/presentation",
+            "$name/src/commonMain/kotlin/$basePackage/view_model",
+            "$name/src/commonMain/kotlin/$basePackage/screen",
             "$name/src/androidMain/kotlin/$basePackage",
             "$name/src/iosMain/kotlin/$basePackage"
         )
@@ -75,7 +79,6 @@ abstract class CreateFeatureTask : DefaultTask() {
             |
             |    sourceSets {
             |        commonMain.dependencies {
-            |            implementation(projects.core)
             |            implementation(projects.core.designSystem)
             |            implementation(projects.core.navigation)
             |        }
@@ -99,9 +102,8 @@ abstract class CreateFeatureTask : DefaultTask() {
         println("  $name/")
         println("  ├── src/")
         println("  │   ├── commonMain/kotlin/$basePackage/")
-        println("  │   │   ├── data/")
-        println("  │   │   ├── domain/")
-        println("  │   │   └── presentation/")
+        println("  │   │   ├── view_model/")
+        println("  │   │   └── screen/")
         println("  │   ├── androidMain/kotlin/$basePackage/")
         println("  │   └── iosMain/kotlin/$basePackage/")
         println("  └── build.gradle.kts")
@@ -109,7 +111,201 @@ abstract class CreateFeatureTask : DefaultTask() {
 }
 
 tasks.register<CreateFeatureTask>("createFeature") {
-    description = "Creates a new feature module with clean architecture structure"
+    description = "Creates a new feature module with view_model and screen packages"
+    group = "trackshift"
+    projectDir.set(layout.projectDirectory)
+}
+
+// =============================================================================
+// SERVICE MODULE TASK
+// Creates service modules in services/ with service package (API/Network layer)
+// Usage: ./gradlew createService --name=spotify
+// =============================================================================
+abstract class CreateServiceTask : DefaultTask() {
+
+    @get:Input
+    @get:Option(
+        option = "name",
+        description = "The name of the service module (e.g., spotify, apple-music)"
+    )
+    abstract val serviceName: Property<String>
+
+    @get:Internal
+    abstract val projectDir: DirectoryProperty
+
+    @TaskAction
+    fun create() {
+        val name = serviceName.orNull
+            ?: throw GradleException("Service name is required. Usage: ./gradlew createService --name=spotify")
+
+        val rootDir = projectDir.get().asFile
+        val moduleDir = File(rootDir, "services/$name")
+
+        if (moduleDir.exists()) {
+            throw GradleException("Service module 'services/$name' already exists!")
+        }
+
+        val packageSuffix = name.replace("-", "_")
+        val basePackage = "com/despaircorp/services/$packageSuffix"
+
+        println("Creating service module: services/$name")
+
+        val directories = listOf(
+            "services/$name/src/commonMain/kotlin/$basePackage/service",
+            "services/$name/src/androidMain/kotlin/$basePackage",
+            "services/$name/src/iosMain/kotlin/$basePackage"
+        )
+
+        directories.forEach { dir ->
+            File(rootDir, dir).mkdirs()
+            File(rootDir, "$dir/.gitkeep").createNewFile()
+        }
+
+        val packageName = "com.despaircorp.services.$packageSuffix"
+
+        val buildGradleContent = """
+            |plugins {
+            |    id("trackshift.kmp.library")
+            |}
+            |
+            |kotlin {
+            |    androidLibrary {
+            |        namespace = "$packageName"
+            |        compileSdk = 36
+            |        minSdk = 28
+            |    }
+            |
+            |    sourceSets {
+            |        commonMain.dependencies {
+            |            implementation(projects.core.network)
+            |        }
+            |    }
+            |}
+        """.trimMargin()
+
+        File(rootDir, "services/$name/build.gradle.kts").writeText(buildGradleContent)
+
+        val settingsFile = File(rootDir, "settings.gradle.kts")
+        val settingsContent = settingsFile.readText()
+
+        if (!settingsContent.contains("include(\":services:$name\")")) {
+            settingsFile.appendText("\ninclude(\":services:$name\")")
+            println("Added 'services:$name' to settings.gradle.kts")
+        }
+
+        println("✅ Service module 'services/$name' created successfully!")
+        println("")
+        println("Structure created:")
+        println("  services/$name/")
+        println("  ├── src/")
+        println("  │   ├── commonMain/kotlin/$basePackage/")
+        println("  │   │   └── service/   (DTOs, API clients)")
+        println("  │   ├── androidMain/kotlin/$basePackage/")
+        println("  │   └── iosMain/kotlin/$basePackage/")
+        println("  └── build.gradle.kts")
+        println("")
+        println("This module is for external API integrations.")
+        println("Uses 'trackshift.kmp.library' with Ktor, Supabase, Serialization.")
+    }
+}
+
+tasks.register<CreateServiceTask>("createService") {
+    description = "Creates a new service module in services/ (API layer)"
+    group = "trackshift"
+    projectDir.set(layout.projectDirectory)
+}
+
+// =============================================================================
+// DOMAIN MODULE TASK
+// Creates domain modules in domain/ with data and domain packages (Business logic)
+// Usage: ./gradlew createDomain --name=user
+// =============================================================================
+abstract class CreateDomainTask : DefaultTask() {
+
+    @get:Input
+    @get:Option(
+        option = "name",
+        description = "The name of the domain module (e.g., user, playlist, auth)"
+    )
+    abstract val domainName: Property<String>
+
+    @get:Internal
+    abstract val projectDir: DirectoryProperty
+
+    @TaskAction
+    fun create() {
+        val name = domainName.orNull
+            ?: throw GradleException("Domain name is required. Usage: ./gradlew createDomain --name=user")
+
+        val rootDir = projectDir.get().asFile
+        val moduleDir = File(rootDir, "domain/$name")
+
+        if (moduleDir.exists()) {
+            throw GradleException("Domain module 'domain/$name' already exists!")
+        }
+
+        val packageSuffix = name.replace("-", "_")
+        val basePackage = "com/despaircorp/domain/$packageSuffix"
+
+        println("Creating domain module: domain/$name")
+
+        val directories = listOf(
+            "domain/$name/src/commonMain/kotlin/$basePackage/data",
+            "domain/$name/src/commonMain/kotlin/$basePackage/domain",
+            "domain/$name/src/androidMain/kotlin/$basePackage",
+            "domain/$name/src/iosMain/kotlin/$basePackage"
+        )
+
+        directories.forEach { dir ->
+            File(rootDir, dir).mkdirs()
+            File(rootDir, "$dir/.gitkeep").createNewFile()
+        }
+
+        val packageName = "com.despaircorp.domain.$packageSuffix"
+
+        val buildGradleContent = """
+            |plugins {
+            |    id("trackshift.kmp.library")
+            |}
+            |
+            |kotlin {
+            |    androidLibrary {
+            |        namespace = "$packageName"
+            |        compileSdk = 36
+            |        minSdk = 28
+            |    }
+            |}
+        """.trimMargin()
+
+        File(rootDir, "domain/$name/build.gradle.kts").writeText(buildGradleContent)
+
+        val settingsFile = File(rootDir, "settings.gradle.kts")
+        val settingsContent = settingsFile.readText()
+
+        if (!settingsContent.contains("include(\":domain:$name\")")) {
+            settingsFile.appendText("\ninclude(\":domain:$name\")")
+            println("Added 'domain:$name' to settings.gradle.kts")
+        }
+
+        println("✅ Domain module 'domain/$name' created successfully!")
+        println("")
+        println("Structure created:")
+        println("  domain/$name/")
+        println("  ├── src/")
+        println("  │   ├── commonMain/kotlin/$basePackage/")
+        println("  │   │   ├── data/      (Repository implementations)")
+        println("  │   │   └── domain/    (Entities, UseCases, Repository interfaces)")
+        println("  │   ├── androidMain/kotlin/$basePackage/")
+        println("  │   └── iosMain/kotlin/$basePackage/")
+        println("  └── build.gradle.kts")
+        println("")
+        println("This module is for business logic (Entities, UseCases, Repositories).")
+        println("Uses 'trackshift.kmp.library' with Koin, Coroutines, DateTime.")
+    }
+}
+
+tasks.register<CreateDomainTask>("createDomain") {
+    description = "Creates a new domain module in domain/ (Business logic)"
     group = "trackshift"
     projectDir.set(layout.projectDirectory)
 }

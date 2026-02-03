@@ -61,6 +61,9 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         implementation(compose.components.uiToolingPreview)
                         implementation(compose.materialIconsExtended)
 
+                        // Salt UI
+                        implementation(libs.findLibrary("salt-ui").get())
+
                         // Lifecycle & ViewModel
                         implementation(libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
                         implementation(libs.findLibrary("androidx-lifecycle-runtime-compose").get())

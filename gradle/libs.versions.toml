@@ -48,7 +48,7 @@ mockative = "3.1.0"
 turbine = "1.2.1"
 
 # Supabase
-authKt = "3.3.0"
+supabase = "3.3.0"
 
 # Coil
 coil = "3.3.0"
@@ -59,6 +59,9 @@ moko-permissions = "0.20.1"
 # Voyager
 voyagerNavigator = "1.1.0-beta03"
 voyagerKoin = "1.1.0-beta03"
+
+# Salt UI
+saltUi = "2.8.6"
 
 # Other
 fontAwesome = "1.1.1"
@@ -131,8 +134,12 @@ coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 
 # Supabase
-auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "authKt" }
-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "authKt" }
+supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "supabase" }
+supabase-realtime = { module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "supabase" }
+supabase-storage = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "supabase" }
+supabase-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth", version.ref = "supabase" }
+supabase-compose-auth-ui = { module = "io.github.jan-tennert.supabase:compose-auth-ui", version.ref = "supabase" }
 
 # Moko
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
@@ -144,6 +151,9 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 
 # Google
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+
+# Salt UI
+salt-ui = { module = "io.github.moriafly:salt-ui", version.ref = "saltUi" }
 
 # Icons
 font-awesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "fontAwesome" }
@@ -176,7 +186,7 @@ ktor-common = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-seri
 koin-common = ["koin-core", "koin-compose", "koin-compose-viewmodel"]
 coil = ["coil-compose", "coil-network", "coil-svg"]
 voyager = ["voyager-navigator", "voyager-transitions", "voyager-koin"]
-supabase = ["auth-kt", "postgrest-kt"]
+supabase = ["supabase-auth", "supabase-postgrest", "supabase-realtime", "supabase-storage"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -18,7 +18,6 @@ fun TrackShiftApp(
         navController = navController,
         startDestination = NavigationRoute.Splash.route
     ) {
-
         composable(NavigationRoute.Splash.route) {
             SplashScreen()
         }

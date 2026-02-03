@@ -13,8 +13,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.core)
             implementation(projects.core.designSystem)
+            implementation(projects.core.navigation)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
         }

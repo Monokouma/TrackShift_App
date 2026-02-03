@@ -55,6 +55,9 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                         // Ktor
                         implementation(libs.findBundle("ktor-common").get())
 
+                        // Supabase
+                        implementation(libs.findBundle("supabase").get())
+
                         // Serialization
                         implementation(libs.findLibrary("kotlinx-serialization-json").get())
 
