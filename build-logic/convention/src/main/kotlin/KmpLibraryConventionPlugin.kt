@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -13,6 +14,17 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.multiplatform")
                 apply("com.android.kotlin.multiplatform.library")
                 apply("org.jetbrains.kotlin.plugin.serialization")
+                apply("com.codingfeline.buildkonfig")
+            }
+
+            // Configure BuildKonfig with default package name based on project path
+            extensions.configure<BuildKonfigExtension> {
+                val projectPath = project.path.replace(":", ".").removePrefix(".")
+                packageName = "com.despaircorp.$projectPath".replace("-", "_")
+
+                defaultConfigs {
+                    // Empty default config - modules can add their own fields
+                }
             }
 
             extensions.configure<KotlinMultiplatformExtension> {

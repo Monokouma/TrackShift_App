@@ -1,6 +1,7 @@
 [versions]
 # Gradle & Kotlin
 agp = "9.0.0"
+buildkonfigGradlePlugin = "0.17.1"
 kotlin = "2.3.0"
 
 # Android SDK
@@ -77,6 +78,7 @@ core = "1.7.0"
 
 [libraries]
 # Kotlin Test
+buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildkonfigGradlePlugin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }

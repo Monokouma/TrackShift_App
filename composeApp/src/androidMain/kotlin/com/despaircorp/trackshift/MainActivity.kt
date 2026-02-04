@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import com.despaircorp.design_system.theme.TrackShiftTheme
-import com.despaircorp.trackshift.main.TrackShiftApp
+import com.despaircorp.trackshift.screen.TrackShiftApp
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

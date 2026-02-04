@@ -1,4 +1,5 @@
 import com.android.build.api.dsl.ApplicationExtension
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.gradle.api.JavaVersion
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -17,6 +18,16 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.compose")
                 apply("org.jetbrains.kotlin.plugin.compose")
                 apply("org.jetbrains.kotlin.plugin.serialization")
+                apply("com.codingfeline.buildkonfig")
+            }
+
+            // Configure BuildKonfig with default package name
+            extensions.configure<BuildKonfigExtension> {
+                packageName = "com.despaircorp.trackshift"
+
+                defaultConfigs {
+                    // Empty default config - add fields in composeApp/build.gradle.kts
+                }
             }
 
             val compose = extensions.getByType<ComposeExtension>().dependencies
@@ -64,6 +75,12 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         // Koin
                         implementation(libs.findBundle("koin-common").get())
 
+                        // Ktor
+                        implementation(libs.findBundle("ktor-common").get())
+
+                        // Supabase
+                        implementation(libs.findBundle("supabase").get())
+
                         // Serialization
                         implementation(libs.findLibrary("kotlinx-serialization-json").get())
 
@@ -86,10 +103,14 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
 
                         // Koin Android
                         implementation(libs.findLibrary("koin-android").get())
+
+                        // Ktor Android engine
+                        implementation(libs.findLibrary("ktor-client-okhttp").get())
                     }
 
                     iosMain.dependencies {
-                        // iOS specific dependencies if needed
+                        // Ktor iOS engine
+                        implementation(libs.findLibrary("ktor-client-darwin").get())
                     }
                 }
             }
