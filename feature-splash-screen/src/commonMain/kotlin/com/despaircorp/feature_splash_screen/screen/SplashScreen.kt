@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import com.despaircorp.design_system.resources.Res
 import com.despaircorp.design_system.resources.app_name
 import com.despaircorp.design_system.theme.TrackShiftTheme
@@ -39,7 +41,7 @@ fun SplashScreen(
         Spacer(Modifier.weight(1f))
 
         CircularProgressIndicator(
-            modifier = Modifier,
+            modifier = Modifier.padding(bottom = 40.dp),
             color = MaterialTheme.colorScheme.primary,
             trackColor = MaterialTheme.colorScheme.onSurface
         )
@@ -51,15 +53,7 @@ fun SplashScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SplashScreenDarkPreview() {
-    TrackShiftTheme(darkTheme = true) {
-        SplashScreen()
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun SplashScreenLightPreview() {
-    TrackShiftTheme(darkTheme = false) {
+    TrackShiftTheme() {
         SplashScreen()
     }
 }
