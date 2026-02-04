@@ -1,47 +1,50 @@
 package com.despaircorp.design_system.theme
 
-
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 
+// =============================================================================
+// ELECTRIC PULSE - Color Schemes
+// Dark-first design for immersive music experience
+// =============================================================================
 
 val DarkColorScheme = darkColorScheme(
-    // Primary
-    primary = Purple80,
-    onPrimary = Purple20,
-    primaryContainer = Purple30,
-    onPrimaryContainer = Purple90,
+    // Primary: Electric Violet - Brand identity, main actions
+    primary = ElectricViolet60,
+    onPrimary = ElectricViolet10,
+    primaryContainer = ElectricViolet20,
+    onPrimaryContainer = ElectricViolet90,
 
-    // Secondary
-    secondary = Cyan80,
-    onSecondary = Cyan20,
-    secondaryContainer = Cyan30,
-    onSecondaryContainer = Cyan90,
+    // Secondary: Lime - Energy, success, power actions
+    secondary = Lime60,
+    onSecondary = Lime10,
+    secondaryContainer = Lime20,
+    onSecondaryContainer = Lime90,
 
-    // Tertiary
-    tertiary = Amber80,
-    onTertiary = Amber20,
-    tertiaryContainer = Amber30,
-    onTertiaryContainer = Amber90,
+    // Tertiary: Electric Blue - Links, utility, interactive
+    tertiary = ElectricBlue60,
+    onTertiary = ElectricBlue10,
+    tertiaryContainer = ElectricBlue20,
+    onTertiaryContainer = ElectricBlue90,
 
-    // Error
-    error = Red80,
-    onError = Red20,
-    errorContainer = Red30,
-    onErrorContainer = Red90,
+    // Error: Hot Coral
+    error = Coral60,
+    onError = Coral10,
+    errorContainer = Coral20,
+    onErrorContainer = Coral90,
 
-    // Background & Surface
-    background = Neutral4,
+    // Background & Surface: Pure black foundation
+    background = Neutral0,
     onBackground = Neutral90,
-    surface = Neutral4,
+    surface = Neutral0,
     onSurface = Neutral90,
     surfaceVariant = Neutral17,
-    onSurfaceVariant = Neutral80,
-    surfaceDim = Neutral4,
+    onSurfaceVariant = Neutral70,
+    surfaceDim = Neutral0,
     surfaceBright = Neutral22,
-    surfaceContainerLowest = Neutral4,
-    surfaceContainerLow = Neutral10,
-    surfaceContainer = Neutral12,
+    surfaceContainerLowest = Neutral0,
+    surfaceContainerLow = Neutral6,
+    surfaceContainer = Neutral10,
     surfaceContainerHigh = Neutral17,
     surfaceContainerHighest = Neutral22,
 
@@ -51,38 +54,38 @@ val DarkColorScheme = darkColorScheme(
 
     // Inverse
     inverseSurface = Neutral90,
-    inverseOnSurface = Neutral20,
-    inversePrimary = Purple40,
+    inverseOnSurface = Neutral10,
+    inversePrimary = ElectricViolet40,
 
     // Misc
-    scrim = Neutral4,
-    surfaceTint = Purple80,
+    scrim = Neutral0,
+    surfaceTint = ElectricViolet60,
 )
 
 val LightColorScheme = lightColorScheme(
-    // Primary
-    primary = Purple40,
-    onPrimary = Neutral99,
-    primaryContainer = Purple90,
-    onPrimaryContainer = Purple10,
+    // Primary: Electric Violet
+    primary = ElectricViolet50,
+    onPrimary = Neutral100,
+    primaryContainer = ElectricViolet90,
+    onPrimaryContainer = ElectricViolet10,
 
-    // Secondary
-    secondary = Cyan40,
-    onSecondary = Neutral99,
-    secondaryContainer = Cyan90,
-    onSecondaryContainer = Cyan10,
+    // Secondary: Lime
+    secondary = Lime50,
+    onSecondary = Neutral100,
+    secondaryContainer = Lime90,
+    onSecondaryContainer = Lime10,
 
-    // Tertiary
-    tertiary = Amber40,
-    onTertiary = Neutral99,
-    tertiaryContainer = Amber90,
-    onTertiaryContainer = Amber10,
+    // Tertiary: Electric Blue
+    tertiary = ElectricBlue50,
+    onTertiary = Neutral100,
+    tertiaryContainer = ElectricBlue90,
+    onTertiaryContainer = ElectricBlue10,
 
-    // Error
-    error = Red40,
-    onError = Neutral99,
-    errorContainer = Red90,
-    onErrorContainer = Red10,
+    // Error: Hot Coral
+    error = Coral50,
+    onError = Neutral100,
+    errorContainer = Coral95,
+    onErrorContainer = Coral10,
 
     // Background & Surface
     background = Neutral99,
@@ -93,7 +96,7 @@ val LightColorScheme = lightColorScheme(
     onSurfaceVariant = Neutral30,
     surfaceDim = Neutral87,
     surfaceBright = Neutral99,
-    surfaceContainerLowest = Neutral99,
+    surfaceContainerLowest = Neutral100,
     surfaceContainerLow = Neutral96,
     surfaceContainer = Neutral95,
     surfaceContainerHigh = Neutral92,
@@ -106,9 +109,9 @@ val LightColorScheme = lightColorScheme(
     // Inverse
     inverseSurface = Neutral20,
     inverseOnSurface = Neutral95,
-    inversePrimary = Purple80,
+    inversePrimary = ElectricViolet80,
 
     // Misc
-    scrim = Neutral4,
-    surfaceTint = Purple40,
+    scrim = Neutral0,
+    surfaceTint = ElectricViolet50,
 )

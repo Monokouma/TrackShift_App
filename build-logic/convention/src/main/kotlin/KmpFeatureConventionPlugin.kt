@@ -1,11 +1,12 @@
+import com.codingfeline.buildkonfig.gradle.BuildKonfigExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.withType
 import org.jetbrains.compose.ComposeExtension
-import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinMultiplatformExtension
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget
 
 class KmpFeatureConventionPlugin : Plugin<Project> {
@@ -17,6 +18,17 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("org.jetbrains.compose")
                 apply("org.jetbrains.kotlin.plugin.compose")
+                apply("com.codingfeline.buildkonfig")
+            }
+
+            // Configure BuildKonfig with default package name based on project path
+            extensions.configure<BuildKonfigExtension> {
+                val projectPath = project.path.replace(":", ".").removePrefix(".")
+                packageName = "com.despaircorp.$projectPath".replace("-", "_")
+
+                defaultConfigs {
+                    // Empty default config - modules can add their own fields
+                }
             }
 
             val compose = extensions.getByType<ComposeExtension>().dependencies
@@ -58,7 +70,11 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         implementation(compose.material3)
                         implementation(compose.ui)
                         implementation(compose.components.resources)
+                        implementation(compose.components.uiToolingPreview)
                         implementation(compose.materialIconsExtended)
+
+                        // Salt UI
+                        implementation(libs.findLibrary("salt-ui").get())
 
                         // Lifecycle & ViewModel
                         implementation(libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
@@ -86,9 +102,8 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                     }
 
                     androidMain.dependencies {
-                        // Compose Tooling
-                        implementation(compose.uiTooling)
-                        implementation(compose.preview)
+                        // AndroidX Compose Tooling (required for Android Studio preview)
+                        implementation(libs.findLibrary("androidx-compose-ui-tooling").get())
 
                         // AndroidX
                         implementation(libs.findLibrary("androidx-core-ktx").get())

@@ -1,6 +1,7 @@
 [versions]
 # Gradle & Kotlin
 agp = "9.0.0"
+buildkonfigGradlePlugin = "0.17.1"
 kotlin = "2.3.0"
 
 # Android SDK
@@ -48,7 +49,7 @@ mockative = "3.1.0"
 turbine = "1.2.1"
 
 # Supabase
-authKt = "3.3.0"
+supabase = "3.3.0"
 
 # Coil
 coil = "3.3.0"
@@ -60,6 +61,9 @@ moko-permissions = "0.20.1"
 voyagerNavigator = "1.1.0-beta03"
 voyagerKoin = "1.1.0-beta03"
 
+# Salt UI
+saltUi = "2.8.6"
+
 # Other
 fontAwesome = "1.1.1"
 googleid = "1.2.0"
@@ -69,11 +73,12 @@ buildkonfig = "0.17.1"
 napier = "2.7.1"
 composeWebview = "2.0.3"
 kotlinStdlib = "2.3.0"
-runner = "1.5.2"
-core = "1.5.0"
+runner = "1.7.0"
+core = "1.7.0"
 
 [libraries]
 # Kotlin Test
+buildkonfig-gradle-plugin = { module = "com.codingfeline.buildkonfig:buildkonfig-gradle-plugin", version.ref = "buildkonfigGradlePlugin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
 junit = { module = "junit:junit", version.ref = "junit" }
@@ -119,14 +124,24 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # Navigation
 navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation-compose" }
 
+# Compose UI Tooling
+compose-ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "composeMultiplatform" }
+compose-ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "composeMultiplatform" }
+# AndroidX Compose UI Tooling (needed for Android Studio preview)
+androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
+
 # Coil
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
 coil-network = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 coil-svg = { module = "io.coil-kt.coil3:coil-svg", version.ref = "coil" }
 
 # Supabase
-auth-kt = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "authKt" }
-postgrest-kt = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "authKt" }
+supabase-auth = { module = "io.github.jan-tennert.supabase:auth-kt", version.ref = "supabase" }
+supabase-postgrest = { module = "io.github.jan-tennert.supabase:postgrest-kt", version.ref = "supabase" }
+supabase-realtime = { module = "io.github.jan-tennert.supabase:realtime-kt", version.ref = "supabase" }
+supabase-storage = { module = "io.github.jan-tennert.supabase:storage-kt", version.ref = "supabase" }
+supabase-compose-auth = { module = "io.github.jan-tennert.supabase:compose-auth", version.ref = "supabase" }
+supabase-compose-auth-ui = { module = "io.github.jan-tennert.supabase:compose-auth-ui", version.ref = "supabase" }
 
 # Moko
 moko-permissions-compose = { module = "dev.icerock.moko:permissions-compose", version.ref = "moko-permissions" }
@@ -138,6 +153,9 @@ voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voy
 
 # Google
 googleid = { module = "com.google.android.libraries.identity.googleid:googleid", version.ref = "googleid" }
+
+# Salt UI
+salt-ui = { module = "io.github.moriafly:salt-ui", version.ref = "saltUi" }
 
 # Icons
 font-awesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", version.ref = "fontAwesome" }
@@ -170,7 +188,7 @@ ktor-common = ["ktor-client-core", "ktor-client-content-negotiation", "ktor-seri
 koin-common = ["koin-core", "koin-compose", "koin-compose-viewmodel"]
 coil = ["coil-compose", "coil-network", "coil-svg"]
 voyager = ["voyager-navigator", "voyager-transitions", "voyager-koin"]
-supabase = ["auth-kt", "postgrest-kt"]
+supabase = ["supabase-auth", "supabase-postgrest", "supabase-realtime", "supabase-storage"]
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

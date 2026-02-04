@@ -1,11 +1,2 @@
-plugins {
-    id("trackshift.kmp.library")
-}
-
-kotlin {
-    androidLibrary {
-        namespace = "com.despaircorp.core"
-        compileSdk = 36
-        minSdk = 28
-    }
-}
+// Parent module for core infrastructure modules (design-system, navigation, network)
+// This module has no code, just aggregates submodules
