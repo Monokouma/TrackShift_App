@@ -5,4 +5,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
     fun handleSessionsStatus(): Flow<SessionStatus>
+    suspend fun getOAuthUrl(provider: String): Result<String>
+    suspend fun handleOAuthCallback(url: String): Result<Unit>
 }
