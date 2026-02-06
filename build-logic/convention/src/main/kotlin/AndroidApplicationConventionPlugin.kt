@@ -100,6 +100,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                         // AndroidX
                         implementation(libs.findLibrary("androidx-activity-compose").get())
                         implementation(libs.findLibrary("androidx-core-ktx").get())
+                        implementation(libs.findLibrary("androidx-browser").get())
 
                         // Koin Android
                         implementation(libs.findLibrary("koin-android").get())

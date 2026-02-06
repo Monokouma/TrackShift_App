@@ -35,3 +35,6 @@ include(":domain:auth")
 include(":feature-splash-screen")
 
 include(":feature-auth")
+include(":core:utils")
+include(":domain:local-storage")
+include(":services:storage")

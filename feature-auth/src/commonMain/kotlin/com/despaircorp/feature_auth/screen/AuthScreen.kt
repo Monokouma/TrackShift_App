@@ -2,7 +2,6 @@ package com.despaircorp.feature_auth.screen
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,6 +20,7 @@ import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
@@ -29,9 +29,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +43,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -49,26 +52,41 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_auth.model.AuthProvider
 import com.despaircorp.feature_auth.view_model.AuthViewModel
+import com.despaircorp.utils.PlatformUtils
+import dev.chrisbanes.haze.HazeDefaults.style
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Suppress("ParamsComparedByRef")
 @Composable
 fun AuthScreen(
+    onLaunchOAuth: (url: String, onResult: (String?) -> Unit) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AuthViewModel = koinViewModel()
+    viewModel: AuthViewModel = koinViewModel(),
 ) {
+
+    val errorState = viewModel.authError.collectAsStateWithLifecycle()
+    val authLoading = viewModel.authLoading.collectAsStateWithLifecycle()
+
+    LaunchedEffect(onLaunchOAuth) {
+        viewModel.oAuthUrlToLaunch.collect { url ->
+            onLaunchOAuth(url) { callbackUrl ->
+                callbackUrl?.let { viewModel.onOAuthCallback(it) }
+            }
+        }
+    }
 
     AuthScreenContent(
         onAuthProviderPick = {
             viewModel.onProviderPick(provider = it)
         },
-        onMailAuth = { mail, pass, provider ->
-
-        }
+        modifier = modifier,
+        error = errorState.value,
+        loading = authLoading.value,
     )
 }
 
@@ -76,63 +94,79 @@ fun AuthScreen(
 @Composable
 private fun AuthScreenContent(
     onAuthProviderPick: (AuthProvider) -> Unit,
-    onMailAuth: (String, String, AuthProvider) -> Unit,
+    error: Boolean,
+    loading: Boolean,
     modifier: Modifier = Modifier
 ) {
-    var showSheet by remember { mutableStateOf(false) }
+    val snackbarHostState = remember { SnackbarHostState() }
 
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
-    ) {
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text("Salut toi !",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.headlineLarge
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        Text("On se connait ?",
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.headlineSmall
-        )
-
-        Spacer(modifier = Modifier.height(80.dp))
-
-
-        AuthButton(
-            onClick = {
-                onAuthProviderPick(it)
-            }
-        )
-
-        Spacer(modifier = Modifier.height(40.dp))
-
-        MoreAuthOptions(
-            onClick = {
-                showSheet = true
-            }
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        PoliticsAndCgu()
-
-        if (showSheet) {
-            MailAuth(
-                onDismissRequest = {
-                    showSheet = false
-                },
-                onSubmit = { mail, pass, provider ->
-                    onMailAuth(mail, pass, provider)
-                }
+    LaunchedEffect(error) {
+        if (error) {
+            snackbarHostState.showSnackbar(
+                message = "Une erreur est survenue",
+                duration = SnackbarDuration.Short
             )
         }
+    }
+
+    Box(modifier = modifier.fillMaxSize()) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
+        ) {
+            Spacer(modifier = Modifier.weight(1f))
+
+            Text("Salut toi !",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.headlineLarge
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Text("On se connait ?",
+                color = MaterialTheme.colorScheme.onBackground,
+                style = MaterialTheme.typography.headlineSmall
+            )
+
+            Spacer(modifier = Modifier.height(80.dp))
+
+            AuthButton(
+                onClick = {
+                    onAuthProviderPick(it)
+                }
+            )
+
+            Spacer(modifier = Modifier.height(40.dp))
+
+
+            Spacer(modifier = Modifier.weight(1f))
+
+            PoliticsAndCgu()
+
+        }
+
+        if (loading) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.Center)
+
+                    .background(
+                        color = MaterialTheme.colorScheme.background.copy(alpha = 0.8f),
+                        shape = RoundedCornerShape(16.dp)
+                    )
+                    .padding(32.dp)
+            ) {
+                CircularProgressIndicator()
+            }
+        }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.TopCenter)
+        )
     }
 }
 
@@ -284,36 +318,6 @@ private fun AuthButton(
 }
 
 @Composable
-private fun MoreAuthOptions(
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center,
-    ) {
-
-        HorizontalDivider(
-            modifier = Modifier.weight(1f).padding(start = 20.dp),
-            color = Color.White.copy(alpha = 0.4f),
-        )
-
-        Text(
-            text = "Utiliser une autre méthode de connexion",
-            modifier = Modifier.clickable(enabled = true, onClick = onClick).padding(horizontal = 12.dp),
-            color = Color.White,
-            fontSize = 16.sp,
-        )
-
-        HorizontalDivider(
-            modifier = Modifier.weight(1f).padding(end = 20.dp),
-            color = Color.White.copy(alpha = 0.4f),
-        )
-    }
-}
-
-@Composable
 private fun PoliticsAndCgu(
     modifier: Modifier = Modifier
 ) {
@@ -324,7 +328,9 @@ private fun PoliticsAndCgu(
     ) {
         Text(
             text = "Politique de Confidentialité",
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.clickable(true, onClick = {
+                PlatformUtils().openUrl("https://trackshift.fr/politics")
+            }).padding(20.dp),
             color = Color.White,
             style = MaterialTheme.typography.titleSmall,
             textDecoration = TextDecoration.Underline
@@ -332,7 +338,9 @@ private fun PoliticsAndCgu(
 
         Text(
             text = "Conditions Générales d'Utilisation",
-            modifier = Modifier.padding(20.dp),
+            modifier = Modifier.clickable(true, onClick = {
+                PlatformUtils().openUrl("https://trackshift.fr/cgu")
+            }).padding(20.dp),
             color = Color.White,
             style = MaterialTheme.typography.titleSmall,
             textDecoration = TextDecoration.Underline
@@ -388,9 +396,8 @@ private fun AuthScreenPreview() {
             onAuthProviderPick = {
 
             },
-            onMailAuth = { mail, pass, provider ->
-
-            }
+            error = false,
+            loading = false
         )
     }
 }

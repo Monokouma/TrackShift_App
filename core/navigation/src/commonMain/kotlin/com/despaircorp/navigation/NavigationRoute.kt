@@ -6,4 +6,8 @@ sealed class NavigationRoute(val route: String) {
     object Home : NavigationRoute("home")
 
     object Auth : NavigationRoute("auth")
+
+    object Onboard : NavigationRoute("onboard")
 }
+
+

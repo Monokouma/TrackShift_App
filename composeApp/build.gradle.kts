@@ -19,6 +19,9 @@ buildkonfig {
         buildConfigField(STRING, "SUPABASE_URL", localProperties.getProperty("supabase.url") ?: "")
         buildConfigField(STRING, "SUPABASE_KEY", localProperties.getProperty("supabase.key") ?: "")
 
+        // Google OAuth
+        buildConfigField(STRING, "GOOGLE_WEB_CLIENT_ID", localProperties.getProperty("GOOGLE_WEB_CLIENT_ID") ?: "")
+
         // API Secret
         buildConfigField(STRING, "API_SECRET_KEY", localProperties.getProperty("API_SECRET_KEY") ?: "")
 
@@ -39,6 +42,8 @@ kotlin {
             implementation(projects.core.network)
             implementation(projects.services.supabase)
             implementation(projects.domain.auth)
+            implementation(projects.domain.localStorage)
+            implementation(projects.services.storage)
         }
     }
 }

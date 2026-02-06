@@ -7,7 +7,15 @@ import org.koin.dsl.module
 
 val presentationModule = module {
 
-    viewModel { TrackShiftAppViewModel(handleSessionStatusUseCase = get()) }
-    viewModel { AuthViewModel(authByProviderUseCase = get()) }
+    viewModel { TrackShiftAppViewModel(
+        handleSessionStatusUseCase = get(),
+        manageOnboardStorageUseCase = get()
+    ) }
+    viewModel {
+        AuthViewModel(
+            authByProviderUseCase = get(),
+            handleOAuthCallbackUseCase = get()
+        )
+    }
 
 }

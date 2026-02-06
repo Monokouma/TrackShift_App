@@ -310,3 +310,95 @@ tasks.register<CreateDomainTask>("createDomain") {
     group = "trackshift"
     projectDir.set(layout.projectDirectory)
 }
+
+// =============================================================================
+// CORE MODULE TASK
+// Creates core modules in core/ (Infrastructure/shared utilities)
+// Usage: ./gradlew createCore -Pname=utils
+// =============================================================================
+abstract class CreateCoreTask : DefaultTask() {
+
+    @get:Input
+    @get:Option(
+        option = "name",
+        description = "The name of the core module (e.g., utils, analytics, logging)"
+    )
+    abstract val coreName: Property<String>
+
+    @get:Internal
+    abstract val projectDir: DirectoryProperty
+
+    @TaskAction
+    fun create() {
+        val name = coreName.orNull
+            ?: throw GradleException("Core name is required. Usage: ./gradlew createCore -Pname=utils")
+
+        val rootDir = projectDir.get().asFile
+        val moduleDir = File(rootDir, "core/$name")
+
+        if (moduleDir.exists()) {
+            throw GradleException("Core module 'core/$name' already exists!")
+        }
+
+        val packageSuffix = name.replace("-", "_")
+        val basePackage = "com/despaircorp/$packageSuffix"
+
+        println("Creating core module: core/$name")
+
+        val directories = listOf(
+            "core/$name/src/commonMain/kotlin/$basePackage",
+            "core/$name/src/androidMain/kotlin/$basePackage",
+            "core/$name/src/iosMain/kotlin/$basePackage"
+        )
+
+        directories.forEach { dir ->
+            File(rootDir, dir).mkdirs()
+            File(rootDir, "$dir/.gitkeep").createNewFile()
+        }
+
+        val packageName = "com.despaircorp.$packageSuffix"
+
+        val buildGradleContent = """
+            |plugins {
+            |    id("trackshift.kmp.library")
+            |}
+            |
+            |kotlin {
+            |    androidLibrary {
+            |        namespace = "$packageName"
+            |        compileSdk = 36
+            |        minSdk = 28
+            |    }
+            |}
+        """.trimMargin()
+
+        File(rootDir, "core/$name/build.gradle.kts").writeText(buildGradleContent)
+
+        val settingsFile = File(rootDir, "settings.gradle.kts")
+        val settingsContent = settingsFile.readText()
+
+        if (!settingsContent.contains("include(\":core:$name\")")) {
+            settingsFile.appendText("\ninclude(\":core:$name\")")
+            println("Added 'core:$name' to settings.gradle.kts")
+        }
+
+        println("✅ Core module 'core/$name' created successfully!")
+        println("")
+        println("Structure created:")
+        println("  core/$name/")
+        println("  ├── src/")
+        println("  │   ├── commonMain/kotlin/$basePackage/")
+        println("  │   ├── androidMain/kotlin/$basePackage/")
+        println("  │   └── iosMain/kotlin/$basePackage/")
+        println("  └── build.gradle.kts")
+        println("")
+        println("This module is for infrastructure/shared utilities.")
+        println("Uses 'trackshift.kmp.library' convention plugin.")
+    }
+}
+
+tasks.register<CreateCoreTask>("createCore") {
+    description = "Creates a new core module in core/ (Infrastructure)"
+    group = "trackshift"
+    projectDir.set(layout.projectDirectory)
+}

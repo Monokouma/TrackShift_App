@@ -8,6 +8,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,8 @@ import androidx.navigation.compose.rememberNavController
 import com.despaircorp.feature_auth.screen.AuthScreen
 import com.despaircorp.feature_splash_screen.screen.SplashScreen
 import com.despaircorp.navigation.NavigationRoute
+import com.despaircorp.trackshift.TrackShiftAppUiState
+import com.despaircorp.trackshift.utils.PlatformOAuthLauncher
 import com.despaircorp.trackshift.view_model.TrackShiftAppViewModel
 import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
@@ -27,20 +30,41 @@ fun TrackShiftApp(
     viewModel: TrackShiftAppViewModel = koinViewModel()
 ) {
     val navController = rememberNavController()
+    val oAuthLauncher = remember { PlatformOAuthLauncher() }
 
-    val isAuthenticated = viewModel.isAuthenticatedStateFlow.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(isAuthenticated.value) {
+
+    LaunchedEffect(uiState.value) {
         delay(2.seconds)
-        when (isAuthenticated.value) {
-            true -> navController.navigate(NavigationRoute.Home.route) {
-                popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+
+        when (uiState.value) {
+            is TrackShiftAppUiState.AuthRedirection -> {
+                navController.navigate(NavigationRoute.Auth.route) {
+                    popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+                }
             }
-            false -> navController.navigate(NavigationRoute.Auth.route) {
-                popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+
+            is TrackShiftAppUiState.HomeRedirection -> {
+                navController.navigate(NavigationRoute.Home.route) {
+                    popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+                }
+            }
+
+            is TrackShiftAppUiState.SplashRedirection -> {
+                navController.navigate(NavigationRoute.Splash.route) {
+                    popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+                }
+            }
+
+            is TrackShiftAppUiState.OnboardRedirection -> {
+                navController.navigate(NavigationRoute.Onboard.route) {
+                    popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+                }
             }
         }
     }
+
 
     NavHost(
         navController = navController,
@@ -60,7 +84,16 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Auth.route) {
-            AuthScreen()
+            AuthScreen(
+                onLaunchOAuth = { url, onResult ->
+                    oAuthLauncher.launch(url, "trackshift", onResult)
+                }
+            )
+        }
+
+        composable(NavigationRoute.Onboard.route) {
+            println("Onboard")
+            Text("OnBoard")
         }
     }
 }
