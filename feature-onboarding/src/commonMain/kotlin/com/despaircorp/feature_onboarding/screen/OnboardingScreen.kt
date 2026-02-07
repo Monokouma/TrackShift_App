@@ -1,5 +1,7 @@
 package com.despaircorp.feature_onboarding.screen
 
+import androidx.compose.animation.core.EaseInOutCubic
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +33,7 @@ fun OnboardingScreen(
 fun OnboardingContent(
     modifier: Modifier = Modifier
 ) {
-    val pagerState = rememberPagerState(pageCount = { 2 })
+    val pagerState = rememberPagerState(pageCount = { 3 })
     val scope = rememberCoroutineScope()
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -43,13 +45,27 @@ fun OnboardingContent(
                 0 -> ScreenshotTutoScreen(
                     onClick = {
                         scope.launch {
-                            pagerState.animateScrollToPage(1)
+                            pagerState.animateScrollToPage(
+                                page = 1,
+                                animationSpec = tween(
+                                    durationMillis = 800,
+                                    easing = EaseInOutCubic
+                                )
+                            )
                         }
                     }
                 )
                 1 -> UniversalLinkTutoScreen(
                     onClick = {
-
+                        scope.launch {
+                            pagerState.animateScrollToPage(
+                                page = 2,
+                                animationSpec = tween(
+                                    durationMillis = 800,
+                                    easing = EaseInOutCubic
+                                )
+                            )
+                        }
                     }
                 )
                 2 -> ConversionTutoScreen()
