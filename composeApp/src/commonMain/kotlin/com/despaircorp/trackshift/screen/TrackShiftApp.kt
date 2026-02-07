@@ -15,6 +15,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.despaircorp.feature_auth.screen.AuthScreen
+import com.despaircorp.feature_onboarding.screen.OnboardingScreen
 import com.despaircorp.feature_splash_screen.screen.SplashScreen
 import com.despaircorp.navigation.NavigationRoute
 import com.despaircorp.trackshift.TrackShiftAppUiState
@@ -73,6 +74,7 @@ fun TrackShiftApp(
         exitTransition = { fadeOut(animationSpec = tween(250)) },
         popEnterTransition = { fadeIn(animationSpec = tween(250)) },
         popExitTransition = { fadeOut(animationSpec = tween(250)) },
+        modifier = modifier
     ) {
 
         composable(NavigationRoute.Splash.route) {
@@ -92,8 +94,7 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Onboard.route) {
-            println("Onboard")
-            Text("OnBoard")
+            OnboardingScreen()
         }
     }
 }
