@@ -1,5 +1,6 @@
-package com.despaircorp.feature_onboarding.screen
+package com.despaircorp.feature_onboarding.screen.sub_screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,42 +17,61 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.despaircorp.design_system.resources.Res
+import com.despaircorp.design_system.resources.tuto_screen
 import com.despaircorp.design_system.theme.TrackShiftTheme
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun UniversalLinkTutoScreen(
+fun ScreenshotTutoScreen(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier.fillMaxSize().background(MaterialTheme.colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(40.dp))
 
         Text(
-            "Nous générons un lien universel.",
+            "Comment ça marche ?",
             color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineSmall
+            style = MaterialTheme.typography.displaySmall,
+            textAlign = TextAlign.Center
+            )
+
+        Spacer(modifier = Modifier.height(40.dp))
+
+        Text(
+            "Tu peux utiliser un screenshot : ",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Center
         )
+        Spacer(modifier = Modifier.height(20.dp))
+        //Screenshot
 
-        Spacer(modifier = Modifier.height(60.dp))
-
-        Text(
-            "Tu peux ensuite partager ce lien où tu le souhaites",
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineSmall
+        Image(
+            painter = painterResource(Res.drawable.tuto_screen),
+            contentDescription = "Screenshot",
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
         )
 
         Spacer(modifier = Modifier.height(40.dp))
 
+        Text(
+            "Où, l'url publique d'une playlist : ",
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.headlineSmall,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(20.dp))
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
@@ -60,30 +80,20 @@ fun UniversalLinkTutoScreen(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                "https://trackshift.fr/code/3048f4",
+                "https://une.gentille.app.de.streaming.com/playlist/1234",
                 color = MaterialTheme.colorScheme.onBackground
             )
         }
 
-        Spacer(modifier = Modifier.height(60.dp))
-
-        Text(
-            "Ce lien regroupe toutes les musiques détectées depuis ton screenshot ou l'URL de ta playlist.",
-            color = MaterialTheme.colorScheme.onBackground,
-            textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.headlineSmall,
-            modifier = Modifier.padding(horizontal = 20.dp)
-        )
-
         Spacer(modifier = Modifier.weight(1f))
 
         Button(
-            onClick = {
+            onClick = { 
                 onClick()
             }
         ) {
             Text(
-                "Et j'en fais quoi d'autre du lien ?",
+                "Et ensuite ?",
                 color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineSmall,
                 textAlign = TextAlign.Center
@@ -96,9 +106,9 @@ fun UniversalLinkTutoScreen(
 
 @Composable
 @Preview
-private fun UniversalLinkTutoScreenPreview() {
+private fun ScreenshotTutoScreenPreview() {
     TrackShiftTheme {
-        UniversalLinkTutoScreen(
+        ScreenshotTutoScreen(
             onClick = {
 
             }

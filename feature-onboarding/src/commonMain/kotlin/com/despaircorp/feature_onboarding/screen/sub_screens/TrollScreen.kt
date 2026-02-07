@@ -1,4 +1,4 @@
-package com.despaircorp.feature_onboarding.screen
+package com.despaircorp.feature_onboarding.screen.sub_screens
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween

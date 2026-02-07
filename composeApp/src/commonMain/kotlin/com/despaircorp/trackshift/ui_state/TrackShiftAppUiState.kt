@@ -1,4 +1,4 @@
-package com.despaircorp.trackshift
+package com.despaircorp.trackshift.ui_state
 
 interface TrackShiftAppUiState {
     data object AuthRedirection: TrackShiftAppUiState

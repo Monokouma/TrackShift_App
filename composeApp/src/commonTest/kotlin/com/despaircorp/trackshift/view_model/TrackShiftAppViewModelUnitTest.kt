@@ -5,7 +5,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import com.despaircorp.domain.auth.domain.use_cases.HandleSessionStatusUseCase
 import com.despaircorp.domain.local_storage.domain.use_cases.ManageOnboardStorageUseCase
-import com.despaircorp.trackshift.TrackShiftAppUiState
+import com.despaircorp.trackshift.ui_state.TrackShiftAppUiState
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.mock
