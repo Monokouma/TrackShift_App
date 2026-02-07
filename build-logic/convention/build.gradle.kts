@@ -18,6 +18,7 @@ dependencies {
     compileOnly(libs.kotlin.gradlePlugin)
     compileOnly(libs.compose.gradlePlugin)
     compileOnly(libs.buildkonfig.gradle.plugin)
+    compileOnly(libs.mokkery.gradlePlugin)
 }
 
 gradlePlugin {

@@ -4,8 +4,8 @@ import com.despaircorp.domain.auth.domain.repo.AuthRepository
 import io.github.jan.supabase.auth.status.SessionStatus
 import kotlinx.coroutines.flow.Flow
 
-class HandleSessionStatusUseCase(
+open class HandleSessionStatusUseCase(
     private val authRepository: AuthRepository
 ) {
-    operator fun invoke(): Flow<SessionStatus> = authRepository.handleSessionsStatus()
+    open operator fun invoke(): Flow<SessionStatus> = authRepository.handleSessionsStatus()
 }

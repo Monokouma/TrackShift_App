@@ -1,9 +1,9 @@
 package com.despaircorp.trackshift.di
 
 import com.despaircorp.services.supabase.service.SupabaseAuthService
+import com.despaircorp.services.supabase.service.SupabaseAuthServiceImpl
 import org.koin.dsl.module
 
 val servicesModule = module {
-    single { SupabaseAuthService(get()) }
-
+    single<SupabaseAuthService> { SupabaseAuthServiceImpl(get()) }
 }

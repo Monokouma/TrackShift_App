@@ -37,6 +37,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.featureAuth)
             implementation(projects.featureSplashScreen)
+            implementation(projects.featureOnboarding)
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
             implementation(projects.core.network)

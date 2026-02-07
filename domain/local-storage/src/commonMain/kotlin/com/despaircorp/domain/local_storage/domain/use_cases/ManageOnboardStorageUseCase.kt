@@ -2,12 +2,12 @@ package com.despaircorp.domain.local_storage.domain.use_cases
 
 import com.despaircorp.domain.local_storage.domain.repo.LocalStorageRepository
 
-class ManageOnboardStorageUseCase(
+open class ManageOnboardStorageUseCase(
     private val localStorageRepository: LocalStorageRepository
 ) {
-    fun invokeGet(): Boolean = localStorageRepository.getOnboardCompletionStatus()
+    open fun invokeGet(): Boolean = localStorageRepository.getOnboardCompletionStatus()
 
-    fun invokeSet(isDone: Boolean) {
+    open fun invokeSet(isDone: Boolean) {
         localStorageRepository.setOnboardCompletionStatus(isDone)
     }
 

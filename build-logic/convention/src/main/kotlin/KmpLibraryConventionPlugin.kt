@@ -15,6 +15,7 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                 apply("com.android.kotlin.multiplatform.library")
                 apply("org.jetbrains.kotlin.plugin.serialization")
                 apply("com.codingfeline.buildkonfig")
+                apply("dev.mokkery")
             }
 
             // Configure BuildKonfig with default package name based on project path
@@ -80,6 +81,8 @@ class KmpLibraryConventionPlugin : Plugin<Project> {
                     commonTest.dependencies {
                         implementation(libs.findLibrary("kotlin-test").get())
                         implementation(libs.findLibrary("kotlinx-coroutines-test").get())
+                        implementation(libs.findLibrary("assertk").get())
+                        implementation(libs.findLibrary("turbine").get())
                     }
 
                     androidMain.dependencies {

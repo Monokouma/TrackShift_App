@@ -1,6 +1,6 @@
 package com.despaircorp.services.storage.service
 
-expect class StorageService {
-    fun setIsOnboardDone(isDone: Boolean)
-    fun getIsOnboardDone(): Boolean
+expect class StorageService : StorageServiceContract {
+    override fun setIsOnboardDone(isDone: Boolean)
+    override fun getIsOnboardDone(): Boolean
 }
