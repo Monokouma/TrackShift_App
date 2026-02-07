@@ -31,10 +31,11 @@ class SupabaseAuthServiceImpl(
         try {
             val fragment = url.substringAfter("#", "")
             if (fragment.isNotEmpty()) {
-                val params = fragment.split("&").associate {
-                    val (key, value) = it.split("=", limit = 2)
-                    key to value
-                }
+                val params = fragment.split("&").mapNotNull { param ->
+                    val parts = param.split("=", limit = 2)
+                    if (parts.size == 2) parts[0] to parts[1] else null
+                }.toMap()
+
                 val accessToken = params["access_token"]
                 val refreshToken = params["refresh_token"]
 
