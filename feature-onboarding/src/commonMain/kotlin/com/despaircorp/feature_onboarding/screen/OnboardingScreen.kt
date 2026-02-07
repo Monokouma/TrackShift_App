@@ -14,26 +14,49 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.despaircorp.design_system.theme.TrackShiftTheme
+import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import kotlinx.coroutines.launch
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun OnboardingScreen(
-    modifier: Modifier = Modifier
+    onOnboardFinish: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: OnboardingViewModel = koinViewModel()
 ) {
-   OnboardingContent()
+
+    val isOnboardCompleted = viewModel.isOnboardCompleted.collectAsStateWithLifecycle()
+    val currentOnOnboardFinish by rememberUpdatedState(onOnboardFinish)
+
+    LaunchedEffect(isOnboardCompleted.value) {
+        if (isOnboardCompleted.value) {
+            currentOnOnboardFinish()
+        }
+    }
+
+    OnboardingContent(
+        onOnboardFinish = {
+            viewModel.setOnboardCompleted()
+        }
+    )
 }
 
 @Composable
 fun OnboardingContent(
-    modifier: Modifier = Modifier
+    onOnboardFinish: () -> Unit,
+    modifier: Modifier = Modifier,
 ) {
-    val pagerState = rememberPagerState(pageCount = { 3 })
+    val pagerState = rememberPagerState(pageCount = { 4 })
     val scope = rememberCoroutineScope()
 
     Box(modifier = modifier.fillMaxSize()) {
@@ -68,7 +91,24 @@ fun OnboardingContent(
                         }
                     }
                 )
-                2 -> ConversionTutoScreen()
+                2 -> ConversionTutoScreen(
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(
+                                page = 3,
+                                animationSpec = tween(
+                                    durationMillis = 800,
+                                    easing = EaseInOutCubic
+                                )
+                            )
+                        }
+                    }
+                )
+                3 -> {
+                    TrollScreen(
+                        onClick = { onOnboardFinish() }
+                    )
+                }
             }
         }
 
@@ -79,6 +119,10 @@ fun OnboardingContent(
 @Preview
 private fun OnboardingContentPreview() {
     TrackShiftTheme {
-        OnboardingContent()
+        OnboardingContent(
+            onOnboardFinish = {
+
+            }
+        )
     }
 }

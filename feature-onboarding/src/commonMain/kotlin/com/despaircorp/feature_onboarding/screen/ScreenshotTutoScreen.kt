@@ -57,10 +57,12 @@ fun ScreenshotTutoScreen(
         )
         Spacer(modifier = Modifier.height(20.dp))
         //Screenshot
+
         Image(
             painter = painterResource(Res.drawable.tuto_screen),
             contentDescription = "Screenshot",
-            modifier = Modifier.size(400.dp)
+            modifier = Modifier
+                .clip(RoundedCornerShape(16.dp))
         )
 
         Spacer(modifier = Modifier.height(40.dp))
@@ -75,7 +77,7 @@ fun ScreenshotTutoScreen(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(Color.Gray.copy(alpha = 0.4f))
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {

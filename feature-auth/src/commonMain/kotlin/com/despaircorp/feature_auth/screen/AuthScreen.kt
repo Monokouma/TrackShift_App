@@ -57,7 +57,6 @@ import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_auth.model.AuthProvider
 import com.despaircorp.feature_auth.view_model.AuthViewModel
 import com.despaircorp.utils.PlatformUtils
-import dev.chrisbanes.haze.HazeDefaults.style
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 

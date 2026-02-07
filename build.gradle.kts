@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary) apply false
     alias(libs.plugins.androidLint) apply false
     alias(libs.plugins.buildkonfig) apply false
+    alias(libs.plugins.mokkery) apply false
 }
 
 // =============================================================================

@@ -19,6 +19,7 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                 apply("org.jetbrains.compose")
                 apply("org.jetbrains.kotlin.plugin.compose")
                 apply("com.codingfeline.buildkonfig")
+                apply("dev.mokkery")
             }
 
             // Configure BuildKonfig with default package name based on project path
@@ -99,6 +100,8 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                     commonTest.dependencies {
                         implementation(libs.findLibrary("kotlin-test").get())
                         implementation(libs.findLibrary("kotlinx-coroutines-test").get())
+                        implementation(libs.findLibrary("assertk").get())
+                        implementation(libs.findLibrary("turbine").get())
                     }
 
                     androidMain.dependencies {

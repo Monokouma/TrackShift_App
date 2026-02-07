@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -82,7 +83,7 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Home.route) {
-            Text("Home")
+            Text("Home", color = MaterialTheme.colorScheme.onBackground)
         }
 
         composable(NavigationRoute.Auth.route) {
@@ -94,7 +95,13 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Onboard.route) {
-            OnboardingScreen()
+            OnboardingScreen(
+                onOnboardFinish = {
+                    navController.navigate(NavigationRoute.Home.route) {
+                        popUpTo(NavigationRoute.Splash.route) { inclusive = true }
+                    }
+                }
+            )
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.despaircorp.trackshift.di
 
 import com.despaircorp.feature_auth.view_model.AuthViewModel
+import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import com.despaircorp.trackshift.view_model.TrackShiftAppViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -15,6 +16,12 @@ val presentationModule = module {
         AuthViewModel(
             authByProviderUseCase = get(),
             handleOAuthCallbackUseCase = get()
+        )
+    }
+
+    viewModel {
+        OnboardingViewModel(
+            manageOnboardStorageUseCase = get()
         )
     }
 

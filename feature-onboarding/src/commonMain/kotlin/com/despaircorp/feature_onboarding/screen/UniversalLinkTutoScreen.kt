@@ -55,7 +55,7 @@ fun UniversalLinkTutoScreen(
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.4f))
+                .background(MaterialTheme.colorScheme.primaryContainer)
                 .padding(8.dp),
             contentAlignment = Alignment.Center
         ) {
