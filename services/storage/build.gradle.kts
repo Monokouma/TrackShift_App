@@ -13,5 +13,9 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.network)
         }
+
+        androidMain.dependencies {
+            implementation(libs.androidx.security.crypto)
+        }
     }
 }

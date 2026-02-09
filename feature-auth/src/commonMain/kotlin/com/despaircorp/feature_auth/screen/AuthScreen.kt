@@ -143,7 +143,9 @@ private fun AuthScreenContent(
 
             Spacer(modifier = Modifier.weight(1f))
 
-            PoliticsAndCgu()
+            PoliticsAndCgu(
+                modifier = Modifier.padding(bottom = 40.dp)
+            )
 
         }
 
@@ -321,7 +323,7 @@ private fun PoliticsAndCgu(
     modifier: Modifier = Modifier
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {

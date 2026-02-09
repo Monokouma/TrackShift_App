@@ -16,16 +16,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.despaircorp.feature_auth.screen.AuthScreen
+import com.despaircorp.feature_home.screen.HomeScreen
 import com.despaircorp.feature_onboarding.screen.OnboardingScreen
 import com.despaircorp.feature_splash_screen.screen.SplashScreen
 import com.despaircorp.navigation.NavigationRoute
-import com.despaircorp.trackshift.TrackShiftAppUiState
+import com.despaircorp.trackshift.ui_state.TrackShiftAppUiState
 import com.despaircorp.trackshift.utils.PlatformOAuthLauncher
 import com.despaircorp.trackshift.view_model.TrackShiftAppViewModel
 import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.seconds
 
+@Suppress("ParamsComparedByRef")
 @Composable
 fun TrackShiftApp(
     modifier: Modifier = Modifier,
@@ -83,7 +85,9 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Home.route) {
-            Text("Home", color = MaterialTheme.colorScheme.onBackground)
+            HomeScreen(
+
+            )
         }
 
         composable(NavigationRoute.Auth.route) {

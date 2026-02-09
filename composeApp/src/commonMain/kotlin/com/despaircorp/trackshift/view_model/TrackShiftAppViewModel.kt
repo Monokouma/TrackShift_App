@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.despaircorp.domain.auth.domain.use_cases.HandleSessionStatusUseCase
 import com.despaircorp.domain.local_storage.domain.use_cases.ManageOnboardStorageUseCase
-import com.despaircorp.trackshift.TrackShiftAppUiState
+import com.despaircorp.trackshift.ui_state.TrackShiftAppUiState
 import io.github.jan.supabase.auth.status.SessionStatus
 import io.ktor.client.utils.EmptyContent.status
 import kotlinx.coroutines.delay
