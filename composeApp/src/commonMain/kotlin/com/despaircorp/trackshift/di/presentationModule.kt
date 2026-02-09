@@ -1,6 +1,7 @@
 package com.despaircorp.trackshift.di
 
 import com.despaircorp.feature_auth.view_model.AuthViewModel
+import com.despaircorp.feature_home.view_model.HomeViewModel
 import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import com.despaircorp.trackshift.view_model.TrackShiftAppViewModel
 import org.koin.core.module.dsl.viewModel
@@ -25,4 +26,7 @@ val presentationModule = module {
         )
     }
 
+    viewModel {
+        HomeViewModel()
+    }
 }

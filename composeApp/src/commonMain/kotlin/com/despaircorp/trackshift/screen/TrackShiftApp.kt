@@ -27,6 +27,7 @@ import kotlinx.coroutines.delay
 import org.koin.compose.viewmodel.koinViewModel
 import kotlin.time.Duration.Companion.seconds
 
+@Suppress("ParamsComparedByRef")
 @Composable
 fun TrackShiftApp(
     modifier: Modifier = Modifier,
@@ -84,7 +85,9 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Home.route) {
-            HomeScreen()
+            HomeScreen(
+
+            )
         }
 
         composable(NavigationRoute.Auth.route) {
