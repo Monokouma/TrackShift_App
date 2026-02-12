@@ -12,6 +12,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.core.network)
+            implementation(projects.core.secrets)
         }
     }
 }

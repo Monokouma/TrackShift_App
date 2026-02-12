@@ -17,4 +17,13 @@ class AuthRepositoryImpl(
 
     override suspend fun handleOAuthCallback(url: String): Result<Unit> =
         supabaseAuthService.handleOAuthCallback(url)
+
+    override suspend fun getCurrentUserId(): Result<String> = supabaseAuthService.getCurrentUser().fold(
+        onSuccess = {
+            Result.success(it.id)
+        },
+        onFailure = {
+            Result.failure(it)
+        }
+    )
 }

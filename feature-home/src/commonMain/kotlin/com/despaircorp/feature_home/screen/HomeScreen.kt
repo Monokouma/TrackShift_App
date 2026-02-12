@@ -34,6 +34,7 @@ import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_home.model.HomeTab
 import com.despaircorp.feature_home.ui_state.HomeUiState
 import com.despaircorp.feature_home.view_model.HomeViewModel
+import com.despaircorp.feature_profile.screen.ProfileScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -67,7 +68,7 @@ private fun HomeContent(
                 .padding(bottom = 88.dp)
         ) {
             when (uiState.currentTab) {
-                HomeTab.PROFILE -> ProfilePlaceholder()
+                HomeTab.PROFILE -> ProfileScreen()
                 HomeTab.SHIFT -> ShiftPlaceholder()
                 HomeTab.HISTORY -> HistoryPlaceholder()
             }
@@ -164,20 +165,6 @@ private fun BottomBarTab(
                     scaleX = scale
                     scaleY = scale
                 }
-        )
-    }
-}
-
-@Composable
-private fun ProfilePlaceholder() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Profile",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

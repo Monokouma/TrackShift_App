@@ -24,6 +24,7 @@ include(":core")
 include(":core:design-system")
 include(":core:navigation")
 include(":core:network")
+include(":core:secrets")
 
 // Services - External API integrations (DTOs, API clients)
 include(":services:supabase")
