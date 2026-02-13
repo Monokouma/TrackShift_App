@@ -11,19 +11,19 @@ data class UserDto(
     @SerialName("avatar_url")
     val avatarUrl: String?,
     @SerialName("is_pro")
-    val isPro: Boolean,
+    val isPro: Boolean?,
     @SerialName("created_at")
-    val createdAt: String,
+    val createdAt: String?,
     @SerialName("links_created_month")
-    val linksCreatedMonth: Int,
+    val linksCreatedMonth: Int?,
     @SerialName("links_converted_month")
-    val linksConvertedMonth: Int,
+    val linksConvertedMonth: Int?,
     @SerialName("total_links_created")
-    val totalLinksCreated: Int,
+    val totalLinksCreated: Int?,
     @SerialName("total_playlists_created")
-    val totalPlaylistsCreated: Int,
+    val totalPlaylistsCreated: Int?,
     @SerialName("total_links_converted")
-    val totalLinksConverted: Int,
+    val totalLinksConverted: Int?,
     @SerialName("pro_expires_at")
     val proExpiresAt: String?,
     @SerialName("last_reset_at")

@@ -14,12 +14,7 @@ class UserRepositoryImpl(
         id: String
     ): Result<User> = trackShiftApiService
         .getUser(id)
-        .getOrNull()
-        .let { userDto ->
-            if (userDto == null) {
-                return@let Result.failure(Exception("Null user"))
-            }
-
-            return@let Result.success(userDto.toDomain())
-    }
+        .mapCatching { userDto ->
+            userDto.toDomain() ?: throw Exception("Invalid user data")
+        }
 }

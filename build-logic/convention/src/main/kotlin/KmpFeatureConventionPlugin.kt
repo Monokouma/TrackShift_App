@@ -95,6 +95,9 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
 
                         // DateTime
                         implementation(libs.findLibrary("kotlinx-datetime").get())
+
+                        // Coil (Image loading)
+                        implementation(libs.findBundle("coil").get())
                     }
 
                     commonTest.dependencies {
