@@ -74,9 +74,6 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         implementation(compose.components.uiToolingPreview)
                         implementation(compose.materialIconsExtended)
 
-                        // Salt UI
-                        implementation(libs.findLibrary("salt-ui").get())
-
                         // Lifecycle & ViewModel
                         implementation(libs.findLibrary("androidx-lifecycle-viewmodel-compose").get())
                         implementation(libs.findLibrary("androidx-lifecycle-runtime-compose").get())
@@ -98,6 +95,9 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
 
                         // Coil (Image loading)
                         implementation(libs.findBundle("coil").get())
+
+                        // Peekaboo (Image picker)
+                        implementation(libs.findLibrary("onseok-peekaboo-image-picker").get())
                     }
 
                     commonTest.dependencies {

@@ -12,7 +12,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_onboarding.screen.sub_screens.ConversionTutoScreen
@@ -21,6 +20,7 @@ import com.despaircorp.feature_onboarding.screen.sub_screens.TrollScreen
 import com.despaircorp.feature_onboarding.screen.sub_screens.UniversalLinkTutoScreen
 import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import kotlinx.coroutines.launch
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable

@@ -166,7 +166,7 @@ font-awesome = { module = "br.com.devsrsouza.compose.icons:font-awesome", versio
 
 # Image Picker
 peekaboo-image-picker = { module = "io.github.nicyuvia:peekaboo-image-picker", version.ref = "peekabooImagePicker" }
-onseok-peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekabooImagePickerVersion" }
+onseok-peekaboo-image-picker = { module = "io.github.onseok:peekaboo-image-picker", version.ref = "peekabooImagePicker" }
 
 # Logging
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }

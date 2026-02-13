@@ -2,6 +2,7 @@ package com.despaircorp.feature_profile.model
 
 import com.despaircorp.domain.user.domain.model.User
 import kotlin.Int
+import kotlin.time.Clock
 
 data class UiProfileModel(
     val id: String,
@@ -19,7 +20,7 @@ data class UiProfileModel(
 fun User.toUiModel(): UiProfileModel = UiProfileModel(
     id = id,
     username = displayName,
-    imageUrl = avatarUrl,
+    imageUrl = "$avatarUrl?t=${Clock.System.now().epochSeconds}",
     isPro = isPro,
     totalLinksCreated = linksCreatedMonth,
     totalPlaylistsCreated = linksConvertedMonth,

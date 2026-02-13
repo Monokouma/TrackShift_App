@@ -6,6 +6,8 @@ import com.despaircorp.domain.auth.domain.use_cases.HandleOAuthCallbackUseCase
 import com.despaircorp.domain.auth.domain.use_cases.HandleSessionStatusUseCase
 import com.despaircorp.domain.local_storage.domain.use_cases.ManageOnboardStorageUseCase
 import com.despaircorp.domain.user.domain.use_cases.GetUserDataUseCase
+import com.despaircorp.domain.user.domain.use_cases.UpdateUserImageUseCase
+import com.despaircorp.domain.user.domain.use_cases.UpdateUsernameUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -15,4 +17,6 @@ val domainModule = module {
     factory { ManageOnboardStorageUseCase(localStorageRepository = get()) }
     factory { GetCurrentUserIdUseCase(authRepository = get()) }
     factory { GetUserDataUseCase(userRepository = get(), getCurrentUserIdUseCase = get()) }
+    factory { UpdateUsernameUseCase(userRepository = get(), getCurrentUserIdUseCase = get()) }
+    factory { UpdateUserImageUseCase(userRepository = get(), getCurrentUserIdUseCase = get()) }
 }

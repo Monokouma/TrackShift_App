@@ -1,6 +1,5 @@
 package com.despaircorp.domain.user.data
 
-import co.touchlab.kermit.Logger.Companion.i
 import com.despaircorp.domain.user.domain.model.User
 import com.despaircorp.domain.user.domain.repo.UserRepository
 import com.despaircorp.domain.user.mapper.toDomain
@@ -17,4 +16,11 @@ class UserRepositoryImpl(
         .mapCatching { userDto ->
             userDto.toDomain() ?: throw Exception("Invalid user data")
         }
+
+    override suspend fun updateUserName(newName: String, id: String): Result<Unit> = trackShiftApiService.updateUsername(newName, id)
+
+    override suspend fun updateUserImage(
+        image: ByteArray,
+        id: String
+    ): Result<Unit> = trackShiftApiService.updateUserImage(image, id)
 }

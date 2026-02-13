@@ -33,7 +33,9 @@ val presentationModule = module {
 
     viewModel {
         ProfileViewModel(
-            getUserDataUseCase = get()
+            getUserDataUseCase = get(),
+            updateUsernameUseCase = get(),
+            updateUserImageUseCase = get()
         )
     }
 }

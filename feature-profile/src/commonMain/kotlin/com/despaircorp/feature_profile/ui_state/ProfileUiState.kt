@@ -9,5 +9,5 @@ interface ProfileUiState {
         val uiProfileModel: UiProfileModel
     ): ProfileUiState
 
-    data object Error: ProfileUiState
+    data class Error(val message: String): ProfileUiState
 }

@@ -10,6 +10,7 @@ kotlin {
             implementation(projects.featureHome)
             implementation(projects.featureOnboarding)
             implementation(projects.featureProfile)
+            implementation(projects.featurePaywall)
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
             implementation(projects.core.network)
