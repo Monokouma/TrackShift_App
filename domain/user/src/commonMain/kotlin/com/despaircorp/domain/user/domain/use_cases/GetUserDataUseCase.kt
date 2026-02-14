@@ -4,7 +4,7 @@ import com.despaircorp.domain.auth.domain.use_cases.GetCurrentUserIdUseCase
 import com.despaircorp.domain.user.domain.model.User
 import com.despaircorp.domain.user.domain.repo.UserRepository
 
-class GetUserDataUseCase(
+open class GetUserDataUseCase(
     private val userRepository: UserRepository,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) {

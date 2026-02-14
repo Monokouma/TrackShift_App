@@ -14,5 +14,11 @@ kotlin {
             implementation(projects.core.network)
             implementation(projects.core.secrets)
         }
+        commonTest.dependencies {
+            implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.assertk)
+            implementation(libs.ktor.client.mock)
+        }
     }
 }

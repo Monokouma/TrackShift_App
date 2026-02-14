@@ -4,8 +4,11 @@ import app.cash.turbine.test
 import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isInstanceOf
+import assertk.assertions.isFailure
+import assertk.assertions.isSuccess
 import assertk.assertions.isTrue
 import com.despaircorp.services.supabase.service.SupabaseAuthService
+import io.github.jan.supabase.auth.user.UserInfo
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend
@@ -147,5 +150,36 @@ class AuthRepositoryImplUnitTest {
         verifySuspend {
             service.handleOAuthCallback("trackshift://callback#error=access_denied")
         }
+    }
+
+    @Test
+    fun `nominal case - getCurrentUserId returns user id`() = runTest(testDispatcher) {
+        val service = mock<SupabaseAuthService>()
+        val repository = AuthRepositoryImpl(service)
+        val userInfo = UserInfo(id = "user_123", aud = "")
+
+        everySuspend { service.getCurrentUser() } returns Result.success(userInfo)
+
+        val result = repository.getCurrentUserId()
+
+        assertThat(result).isSuccess()
+        assertThat(result.getOrNull()).isEqualTo("user_123")
+
+        verifySuspend { service.getCurrentUser() }
+    }
+
+    @Test
+    fun `error case - getCurrentUserId returns failure when user is null`() = runTest(testDispatcher) {
+        val service = mock<SupabaseAuthService>()
+        val repository = AuthRepositoryImpl(service)
+
+        everySuspend { service.getCurrentUser() } returns Result.failure(Exception("Current user is null"))
+
+        val result = repository.getCurrentUserId()
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Current user is null")
+
+        verifySuspend { service.getCurrentUser() }
     }
 }
