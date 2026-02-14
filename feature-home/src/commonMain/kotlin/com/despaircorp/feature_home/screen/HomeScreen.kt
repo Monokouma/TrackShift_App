@@ -27,17 +27,19 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_home.model.HomeTab
 import com.despaircorp.feature_home.ui_state.HomeUiState
 import com.despaircorp.feature_home.view_model.HomeViewModel
+import com.despaircorp.feature_profile.screen.ProfileScreen
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(
+    showPaywall: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel()
 ) {
@@ -46,7 +48,10 @@ fun HomeScreen(
     HomeContent(
         uiState = uiState,
         onTabSelect = viewModel::onTabSelected,
-        modifier = modifier
+        modifier = modifier,
+        showPaywall = {
+            showPaywall()
+        }
     )
 }
 
@@ -54,6 +59,7 @@ fun HomeScreen(
 private fun HomeContent(
     uiState: HomeUiState,
     onTabSelect: (HomeTab) -> Unit,
+    showPaywall: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -67,7 +73,11 @@ private fun HomeContent(
                 .padding(bottom = 88.dp)
         ) {
             when (uiState.currentTab) {
-                HomeTab.PROFILE -> ProfilePlaceholder()
+                HomeTab.PROFILE -> ProfileScreen(
+                    showPaywall = {
+                        showPaywall()
+                    }
+                )
                 HomeTab.SHIFT -> ShiftPlaceholder()
                 HomeTab.HISTORY -> HistoryPlaceholder()
             }
@@ -169,20 +179,6 @@ private fun BottomBarTab(
 }
 
 @Composable
-private fun ProfilePlaceholder() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = "Profile",
-            style = MaterialTheme.typography.headlineMedium,
-            color = MaterialTheme.colorScheme.onBackground
-        )
-    }
-}
-
-@Composable
 private fun ShiftPlaceholder() {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -219,6 +215,9 @@ private fun HomeScreenPreview() {
                 HomeTab.SHIFT
             ),
             onTabSelect = {
+
+            },
+            showPaywall = {
 
             }
         )

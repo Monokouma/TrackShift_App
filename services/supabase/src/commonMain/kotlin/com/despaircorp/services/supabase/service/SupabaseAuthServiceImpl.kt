@@ -2,6 +2,7 @@ package com.despaircorp.services.supabase.service
 
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
+import io.github.jan.supabase.auth.user.UserInfo
 import io.ktor.http.encodeURLParameter
 import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -47,6 +48,22 @@ class SupabaseAuthServiceImpl(
                 }
             } else {
                 Result.failure(Exception("Empty fragment in callback URL"))
+            }
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getCurrentUser(): Result<UserInfo> = withContext(Dispatchers.IO) {
+        try {
+            supabaseClient.auth.currentUserOrNull().let {
+                if (it == null) {
+                    Result.failure(Exception("Current user is null"))
+                } else {
+                    Result.success(it)
+                }
             }
         } catch (e: CancellationException) {
             throw e

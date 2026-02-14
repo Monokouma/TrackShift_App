@@ -1,6 +1,6 @@
 package com.despaircorp.trackshift.di
 
-import com.despaircorp.trackshift.BuildKonfig
+import com.despaircorp.core.secrets.BuildKonfig
 import com.despaircorp.trackshift.utils.SupabaseAuthHelper
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient

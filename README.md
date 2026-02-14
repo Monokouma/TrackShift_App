@@ -18,6 +18,7 @@
   <img src="https://img.shields.io/badge/DI-Koin-orange?style=flat-square" alt="DI"/>
   <img src="https://img.shields.io/badge/Auth-Supabase-3ECF8E?style=flat-square" alt="Auth"/>
   <img src="https://img.shields.io/badge/Tests-Mokkery_+_AssertK-red?style=flat-square" alt="Tests"/>
+  <img src="https://img.shields.io/badge/Security-EncryptedSharedPrefs-purple?style=flat-square" alt="Security"/>
 </p>
 
 ---
@@ -27,7 +28,9 @@
 - 🔐 **OAuth Authentication** — Sign in with Google, Apple, or Discord
 - 🔄 **Playlist Transfer** — Move playlists between Spotify, Apple Music, YouTube Music
 - 📱 **Cross-Platform** — Native Android & iOS from single codebase
-- 🎨 **Material 3** — Modern, adaptive UI with dark mode support
+- 🎨 **Material 3** — Modern, adaptive UI
+- 👤 **User Profile** — Edit profile picture & username with image picker
+- 🔒 **Secure Storage** — Encrypted SharedPreferences on Android
 
 ---
 
@@ -45,35 +48,45 @@
 │ feature-auth  │   │feature-onboard│   │  feature-home │
 │   (Screen)    │   │   (Screen)    │   │   (Screen)    │
 └───────────────┘   └───────────────┘   └───────────────┘
-        │                     │                     │
-        └─────────────────────┼─────────────────────┘
+        │                                       │
+        │           ┌───────────────┐           │
+        │           │feature-profile│           │
+        │           │   (Screen)    │           │
+        │           └───────────────┘           │
+        │                     │                 │
+        │           ┌───────────────┐           │
+        │           │feature-paywall│           │
+        │           │   (Screen)    │           │
+        │           └───────────────┘           │
+        │                     │                 │
+        └─────────────────────┼─────────────────┘
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                      domain layer                           │
 │              (UseCases, Repositories, Entities)             │
-│         ┌──────────────┐    ┌──────────────────┐            │
-│         │  domain:auth │    │ domain:local-    │            │
-│         │              │    │      storage     │            │
-│         └──────────────┘    └──────────────────┘            │
+│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
+│   │  domain:auth │  │ domain:user  │  │domain:local- │      │
+│   │              │  │              │  │    storage   │      │
+│   └──────────────┘  └──────────────┘  └──────────────┘      │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                     services layer                          │
 │                (Platform APIs, External SDKs)               │
-│       ┌────────────────┐    ┌────────────────┐              │
-│       │services:supabase│   │services:storage│              │
-│       │  (Auth API)    │    │ (Preferences)  │              │
-│       └────────────────┘    └────────────────┘              │
+│   ┌────────────────┐  ┌────────────────┐  ┌──────────────┐  │
+│   │services:supabase│ │services:storage│  │ services:    │  │
+│   │  (Auth API)    │  │ (Preferences)  │  │trackshift-api│  │
+│   └────────────────┘  └────────────────┘  └──────────────┘  │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                       core layer                            │
 │              (Shared Infrastructure & Utils)                │
-│   ┌─────────────┐  ┌────────────┐  ┌────────────┐           │
-│   │design-system│  │ navigation │  │  network   │           │
-│   └─────────────┘  └────────────┘  └────────────┘           │
+│ ┌─────────────┐ ┌────────────┐ ┌────────────┐ ┌───────────┐ │
+│ │design-system│ │ navigation │ │  network   │ │  secrets  │ │
+│ └─────────────┘ └────────────┘ └────────────┘ └───────────┘ │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -86,15 +99,20 @@
 | **App** | `composeApp` | Entry point, DI setup, navigation host |
 | **Feature** | `feature-auth` | Authentication screens & ViewModel |
 | | `feature-onboarding` | Onboarding flow |
-| | `feature-home` | Main app experience |
+| | `feature-home` | Main app experience with tab navigation |
+| | `feature-profile` | User profile with image picker |
+| | `feature-paywall` | RevenueCat subscription paywall |
 | | `feature-splash-screen` | Launch screen |
 | **Domain** | `domain:auth` | Auth business logic |
+| | `domain:user` | User data & profile logic |
 | | `domain:local-storage` | Local preferences logic |
 | **Services** | `services:supabase` | Supabase auth client |
-| | `services:storage` | Platform storage (SharedPrefs/NSUserDefaults) |
+| | `services:trackshift-api` | TrackShift backend API |
+| | `services:storage` | Platform storage (EncryptedSharedPrefs/NSUserDefaults) |
 | **Core** | `core:design-system` | Theme, colors, typography |
 | | `core:navigation` | Navigation routes |
 | | `core:network` | HTTP client config |
+| | `core:secrets` | BuildKonfig secrets provider |
 | | `core:utils` | Platform utilities |
 
 ---
@@ -109,9 +127,22 @@
 | **DI** | Koin 4.0 |
 | **Networking** | Ktor |
 | **Auth** | Supabase Auth |
+| **Payments** | RevenueCat |
+| **Image Loading** | Coil 3 |
+| **Image Picker** | Peekaboo |
+| **Security** | EncryptedSharedPreferences |
 | **Async** | Coroutines + Flow |
 | **Testing** | Mokkery, AssertK, Turbine |
-| **Build** | Gradle Convention Plugins |
+| **Build** | Gradle Convention Plugins + BuildKonfig |
+
+---
+
+## 🔒 Security
+
+- **Encrypted Storage** — Android uses `EncryptedSharedPreferences` with AES256-GCM encryption
+- **BuildKonfig** — Compile-time secret injection via `core:secrets` module
+- **Backup Disabled** — `android:allowBackup="false"` prevents data extraction
+- **Null-Safe URL Parsing** — Defensive parsing for OAuth callbacks
 
 ---
 
@@ -131,13 +162,7 @@
    cd TrackShift
    ```
 
-2. **Configure Supabase**
-
-   Create `local.properties` in root:
-   ```properties
-   SUPABASE_URL=your_supabase_url
-   SUPABASE_KEY=your_supabase_anon_key
-   ```
+2. **Configure secrets**
 
 3. **Run Android**
    ```bash
@@ -160,7 +185,9 @@
 
 # Run specific module tests
 ./gradlew :domain:auth:allTests
+./gradlew :domain:user:allTests
 ./gradlew :feature-auth:allTests
+./gradlew :feature-home:allTests
 ./gradlew :composeApp:allTests
 ```
 
@@ -169,9 +196,11 @@
 | Module | Tests |
 |--------|-------|
 | `domain:auth` | UseCases + Repository |
+| `domain:user` | UseCases + Repository |
 | `domain:local-storage` | UseCases + Repository |
 | `feature-auth` | ViewModel |
 | `feature-onboarding` | ViewModel |
+| `feature-home` | ViewModel |
 | `composeApp` | App ViewModel |
 
 ---
@@ -189,16 +218,22 @@ TrackShift/
 │   ├── design-system/          # Theme & components
 │   ├── navigation/             # Route definitions
 │   ├── network/                # HTTP configuration
+│   ├── secrets/                # BuildKonfig secrets
 │   └── utils/                  # Platform utilities
 ├── domain/
 │   ├── auth/                   # Auth business logic
+│   ├── user/                   # User business logic
 │   └── local-storage/          # Storage business logic
 ├── services/
 │   ├── supabase/               # Supabase integration
-│   └── storage/                # Platform storage
+│   ├── trackshift-api/         # Backend API client
+│   └── storage/                # Platform storage (encrypted)
 ├── feature-auth/               # Auth UI
 ├── feature-onboarding/         # Onboarding UI
-├── feature-home/               # Home UI
+├── feature-home/               # Home UI (tab container)
+├── feature-profile/            # Profile UI
+│   └── screen/components/      # Extracted components
+├── feature-paywall/            # Subscription paywall
 ├── feature-splash-screen/      # Splash UI
 └── build-logic/                # Convention plugins
     └── convention/
@@ -212,7 +247,17 @@ Custom Gradle convention plugins for consistent configuration:
 
 - `AndroidApplicationConventionPlugin` — App module setup
 - `KmpLibraryConventionPlugin` — Domain/Service modules
-- `KmpFeatureConventionPlugin` — Feature modules with Compose
+- `KmpFeatureConventionPlugin` — Feature modules with Compose, Coil, Peekaboo
+
+### Feature Plugin Includes
+
+- Compose Multiplatform
+- Coil (Image loading)
+- Peekaboo (Image picker)
+- Koin DI
+- Navigation Compose
+- Lifecycle ViewModel
+- Mokkery + AssertK (Testing)
 
 ---
 

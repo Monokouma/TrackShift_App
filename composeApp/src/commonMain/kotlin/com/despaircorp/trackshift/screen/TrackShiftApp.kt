@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.despaircorp.feature_auth.screen.AuthScreen
 import com.despaircorp.feature_home.screen.HomeScreen
 import com.despaircorp.feature_onboarding.screen.OnboardingScreen
+import com.despaircorp.feature_paywall.screen.PaywallScreen
 import com.despaircorp.feature_splash_screen.screen.SplashScreen
 import com.despaircorp.navigation.NavigationRoute
 import com.despaircorp.trackshift.ui_state.TrackShiftAppUiState
@@ -86,7 +87,9 @@ fun TrackShiftApp(
 
         composable(NavigationRoute.Home.route) {
             HomeScreen(
-
+                showPaywall = {
+                    navController.navigate(NavigationRoute.Paywall.route)
+                }
             )
         }
 
@@ -106,6 +109,10 @@ fun TrackShiftApp(
                     }
                 }
             )
+        }
+
+        composable(NavigationRoute.Paywall.route) {
+            PaywallScreen()
         }
     }
 }
