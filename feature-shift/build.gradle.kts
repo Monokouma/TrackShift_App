@@ -4,7 +4,7 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.despaircorp.feature_home"
+        namespace = "com.despaircorp.feature_shift"
         compileSdk = 36
         minSdk = 28
 
@@ -15,9 +15,6 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
-            implementation(projects.featureProfile)
-            implementation(projects.featureShift)
-            implementation(projects.featurePaywall)
         }
     }
 }

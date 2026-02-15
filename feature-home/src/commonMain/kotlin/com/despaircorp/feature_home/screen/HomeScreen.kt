@@ -34,6 +34,7 @@ import com.despaircorp.feature_home.model.HomeTab
 import com.despaircorp.feature_home.ui_state.HomeUiState
 import com.despaircorp.feature_home.view_model.HomeViewModel
 import com.despaircorp.feature_profile.screen.ProfileScreen
+import com.despaircorp.feature_shift.screen.ShiftScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -78,7 +79,11 @@ private fun HomeContent(
                         showPaywall()
                     }
                 )
-                HomeTab.SHIFT -> ShiftPlaceholder()
+                HomeTab.SHIFT -> ShiftScreen(
+                    onShowPaywall = {
+
+                    }
+                )
                 HomeTab.HISTORY -> HistoryPlaceholder()
             }
         }
