@@ -4,7 +4,7 @@ plugins {
 
 kotlin {
     androidLibrary {
-        namespace = "com.despaircorp.feature_shift"
+        namespace = "com.despaircorp.feature_screenshot_conversion"
         compileSdk = 36
         minSdk = 28
 
@@ -15,7 +15,8 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
-            implementation(projects.featureScreenshotConversion)
+            implementation(projects.domain.user)
+            implementation(projects.domain.linkGeneration)
         }
     }
 }
