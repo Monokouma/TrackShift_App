@@ -2,6 +2,7 @@ package com.despaircorp.trackshift.di
 
 import com.despaircorp.feature_auth.view_model.AuthViewModel
 import com.despaircorp.feature_home.view_model.HomeViewModel
+import com.despaircorp.feature_link_generation.view_model.LinkGenerationViewModel
 import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import com.despaircorp.feature_profile.view_model.ProfileViewModel
 import com.despaircorp.feature_shift.view_model.ShiftViewModel
@@ -11,10 +12,12 @@ import org.koin.dsl.module
 
 val presentationModule = module {
 
-    viewModel { TrackShiftAppViewModel(
-        handleSessionStatusUseCase = get(),
-        manageOnboardStorageUseCase = get()
-    ) }
+    viewModel {
+        TrackShiftAppViewModel(
+            handleSessionStatusUseCase = get(),
+            manageOnboardStorageUseCase = get()
+        )
+    }
     viewModel {
         AuthViewModel(
             authByProviderUseCase = get(),
@@ -42,5 +45,14 @@ val presentationModule = module {
 
     viewModel {
         ShiftViewModel()
+    }
+
+    viewModel {
+        LinkGenerationViewModel(
+            isUserLimitReachUseCase = get(),
+            generateTrackShiftLinkFromPlaylistUrlUseCase = get(),
+            getUserDataUseCase = get(),
+            generateTrackShiftLinkFromScreenshotsUseCase = get()
+        )
     }
 }

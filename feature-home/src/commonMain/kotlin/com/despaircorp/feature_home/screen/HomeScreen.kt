@@ -79,11 +79,13 @@ private fun HomeContent(
                         showPaywall()
                     }
                 )
+
                 HomeTab.SHIFT -> ShiftScreen(
                     onShowPaywall = {
-
+                        showPaywall()
                     }
                 )
+
                 HomeTab.HISTORY -> HistoryPlaceholder()
             }
         }

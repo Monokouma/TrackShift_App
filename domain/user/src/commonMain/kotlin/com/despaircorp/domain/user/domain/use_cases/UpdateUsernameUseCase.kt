@@ -7,8 +7,9 @@ open class UpdateUsernameUseCase(
     private val userRepository: UserRepository,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) {
-    suspend operator fun invoke(newName: String): Result<Unit> {
-        val id = getCurrentUserIdUseCase.invoke().getOrNull() ?: return Result.failure(Exception("User id is null"))
+    open suspend operator fun invoke(newName: String): Result<Unit> {
+        val id = getCurrentUserIdUseCase.invoke().getOrNull()
+            ?: return Result.failure(Exception("User id is null"))
 
         return userRepository.updateUserName(newName, id)
     }

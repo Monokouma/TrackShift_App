@@ -19,6 +19,7 @@ object SupabaseAuthHelper {
             try {
                 val fragment = url.substringAfter("#", "")
                 if (fragment.isEmpty()) {
+                    println("OAuth callback: empty fragment in URL")
                     return@launch
                 }
 
@@ -32,6 +33,7 @@ object SupabaseAuthHelper {
                 val expiresIn = params["expires_in"]?.toLongOrNull() ?: 3600
 
                 if (accessToken == null || refreshToken == null) {
+                    println("OAuth callback: missing tokens")
                     return@launch
                 }
 
@@ -46,6 +48,7 @@ object SupabaseAuthHelper {
                 )
 
             } catch (e: Exception) {
+                println("OAuth callback failed: ${e.message}")
             }
         }
     }

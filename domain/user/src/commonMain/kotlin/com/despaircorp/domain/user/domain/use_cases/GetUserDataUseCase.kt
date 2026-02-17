@@ -8,7 +8,7 @@ open class GetUserDataUseCase(
     private val userRepository: UserRepository,
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase
 ) {
-    suspend operator fun invoke(): Result<User> {
+    open suspend operator fun invoke(): Result<User> {
         val id = getCurrentUserIdUseCase
             .invoke()
             .getOrNull() ?: return Result.failure(Exception("User id null"))

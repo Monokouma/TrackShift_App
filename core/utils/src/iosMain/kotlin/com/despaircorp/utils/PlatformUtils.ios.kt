@@ -8,4 +8,5 @@ actual class PlatformUtils actual constructor() {
         val nsUrl = NSURL.URLWithString(url) ?: return
         UIApplication.sharedApplication.openURL(nsUrl, emptyMap<Any?, Any?>()) { _ -> }
     }
+
 }

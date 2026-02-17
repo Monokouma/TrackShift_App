@@ -15,6 +15,7 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
+            implementation(projects.featureLinkGeneration)
         }
     }
 }
