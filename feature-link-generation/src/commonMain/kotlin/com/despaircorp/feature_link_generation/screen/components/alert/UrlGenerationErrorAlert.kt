@@ -1,0 +1,41 @@
+package com.despaircorp.feature_link_generation.screen.components.alert
+
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.despaircorp.design_system.theme.TrackShiftTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
+
+@Composable
+fun UrlGenerationErrorAlert(
+    onDismissRequest: () -> Unit,
+    errorMessage: String,
+    mdofifier: Modifier = Modifier
+) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        title = { Text("Erreur") },
+        text = { Text(errorMessage) },
+        confirmButton = {
+            TextButton(onClick = onDismissRequest) {
+                Text("OK")
+            }
+        },
+        modifier = mdofifier
+    )
+}
+
+@Composable
+@Preview
+private fun UrlGenerationErrorAlertPreview() {
+    TrackShiftTheme {
+        UrlGenerationErrorAlert(
+            onDismissRequest = {
+
+            },
+            errorMessage = "Une erreur est survenue"
+        )
+    }
+}

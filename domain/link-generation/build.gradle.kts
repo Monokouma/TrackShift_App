@@ -12,6 +12,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.services.trackshiftApi)
+            implementation(projects.domain.auth)
             implementation(projects.domain.user)
         }
     }

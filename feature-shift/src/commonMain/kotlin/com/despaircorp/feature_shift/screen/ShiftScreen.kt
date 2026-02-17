@@ -35,7 +35,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.despaircorp.design_system.theme.TrackShiftTheme
-import com.despaircorp.feature_screenshot_conversion.screen.ScreenshotConversionScreen
+import com.despaircorp.feature_link_generation.screen.LinkGenerationScreen
 import com.despaircorp.feature_shift.model.ShiftTab
 import com.despaircorp.feature_shift.view_model.ShiftViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -104,7 +104,7 @@ private fun ShiftScreenContent(
         ) { index ->
             when (ShiftTab.entries[index]) {
                 ShiftTab.SCREENSHOT -> {
-                    ScreenshotConversionScreen(onShowPaywall = onShowPaywall)
+                    LinkGenerationScreen(onShowPaywall = onShowPaywall)
                 }
                 ShiftTab.LINK -> {
                     Text("Link", color = MaterialTheme.colorScheme.onBackground)
