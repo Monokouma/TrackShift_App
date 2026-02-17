@@ -1,6 +1,6 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/Kotlin-2.1.20-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"/>
-  <img src="https://img.shields.io/badge/Compose_Multiplatform-1.8.0-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Compose"/>
+  <img src="https://img.shields.io/badge/Kotlin-2.3.0-7F52FF?style=for-the-badge&logo=kotlin&logoColor=white" alt="Kotlin"/>
+  <img src="https://img.shields.io/badge/Compose_Multiplatform-1.10.0-4285F4?style=for-the-badge&logo=jetpackcompose&logoColor=white" alt="Compose"/>
   <img src="https://img.shields.io/badge/Platform-Android_|_iOS-green?style=for-the-badge" alt="Platform"/>
 </p>
 
@@ -26,11 +26,13 @@
 ## ✨ Features
 
 - 🔐 **OAuth Authentication** — Sign in with Google, Apple, or Discord
+- 🔗 **Link Generation** — Generate TrackShift links from playlist URLs or screenshots
 - 🔄 **Playlist Transfer** — Move playlists between Spotify, Apple Music, YouTube Music
 - 📱 **Cross-Platform** — Native Android & iOS from single codebase
 - 🎨 **Material 3** — Modern, adaptive UI
 - 👤 **User Profile** — Edit profile picture & username with image picker
-- 🔒 **Secure Storage** — Encrypted SharedPreferences on Android
+- 💎 **Pro / Free Limits** — Monthly usage limits for free users, unlimited for Pro
+- 🔒 **Secure Storage** — Encrypted SharedPreferences on Android, Keychain on iOS
 
 ---
 
@@ -49,25 +51,24 @@
 │   (Screen)    │   │   (Screen)    │   │   (Screen)    │
 └───────────────┘   └───────────────┘   └───────────────┘
         │                                       │
-        │           ┌───────────────┐           │
-        │           │feature-profile│           │
-        │           │   (Screen)    │           │
-        │           └───────────────┘           │
-        │                     │                 │
-        │           ┌───────────────┐           │
-        │           │feature-paywall│           │
-        │           │   (Screen)    │           │
-        │           └───────────────┘           │
+        │    ┌────────────────────────────┐     │
+        │    │feature-link-generation     │     │
+        │    │feature-shift               │     │
+        │    │feature-profile             │     │
+        │    │feature-paywall             │     │
+        │    │   (Screens)                │     │
+        │    └────────────────────────────┘     │
         │                     │                 │
         └─────────────────────┼─────────────────┘
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                      domain layer                           │
 │              (UseCases, Repositories, Entities)             │
-│   ┌──────────────┐  ┌──────────────┐  ┌──────────────┐      │
-│   │  domain:auth │  │ domain:user  │  │domain:local- │      │
-│   │              │  │              │  │    storage   │      │
-│   └──────────────┘  └──────────────┘  └──────────────┘      │
+│  ┌───────────┐ ┌───────────┐ ┌──────────────┐ ┌──────────┐ │
+│  │domain:auth│ │domain:user│ │domain:link-  │ │domain:   │ │
+│  │           │ │           │ │  generation  │ │local-    │ │
+│  │           │ │           │ │              │ │storage   │ │
+│  └───────────┘ └───────────┘ └──────────────┘ └──────────┘ │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -100,11 +101,14 @@
 | **Feature** | `feature-auth` | Authentication screens & ViewModel |
 | | `feature-onboarding` | Onboarding flow |
 | | `feature-home` | Main app experience with tab navigation |
+| | `feature-link-generation` | Generate TrackShift links from URL or screenshots |
+| | `feature-shift` | Playlist shift flow |
 | | `feature-profile` | User profile with image picker |
 | | `feature-paywall` | RevenueCat subscription paywall |
 | | `feature-splash-screen` | Launch screen |
 | **Domain** | `domain:auth` | Auth business logic |
-| | `domain:user` | User data & profile logic |
+| | `domain:user` | User data, profile logic & usage limits |
+| | `domain:link-generation` | Link generation & conversion history logic |
 | | `domain:local-storage` | Local preferences logic |
 | **Services** | `services:supabase` | Supabase auth client |
 | | `services:trackshift-api` | TrackShift backend API |
@@ -121,16 +125,17 @@
 
 | Category | Technology |
 |----------|------------|
-| **Language** | Kotlin 2.1.20 |
-| **UI** | Compose Multiplatform 1.8.0 |
+| **Language** | Kotlin 2.3.0 |
+| **UI** | Compose Multiplatform 1.10.0 |
 | **Architecture** | Clean Architecture + MVVM |
-| **DI** | Koin 4.0 |
-| **Networking** | Ktor |
+| **DI** | Koin 4.1 |
+| **Networking** | Ktor 3.4 |
 | **Auth** | Supabase Auth |
 | **Payments** | RevenueCat |
 | **Image Loading** | Coil 3 |
 | **Image Picker** | Peekaboo |
-| **Security** | EncryptedSharedPreferences |
+| **Collections** | kotlinx-collections-immutable |
+| **Security** | EncryptedSharedPreferences / iOS Keychain |
 | **Async** | Coroutines + Flow |
 | **Testing** | Mokkery, AssertK, Turbine |
 | **Build** | Gradle Convention Plugins + BuildKonfig |
@@ -139,9 +144,10 @@
 
 ## 🔒 Security
 
-- **Encrypted Storage** — Android uses `EncryptedSharedPreferences` with AES256-GCM encryption
+- **Encrypted Storage** — Android uses `EncryptedSharedPreferences` with AES256-GCM encryption, iOS uses Keychain
 - **BuildKonfig** — Compile-time secret injection via `core:secrets` module
 - **Backup Disabled** — `android:allowBackup="false"` prevents data extraction
+- **R8 + Minification** — Enabled on release builds for code shrinking and obfuscation
 - **Null-Safe URL Parsing** — Defensive parsing for OAuth callbacks
 
 ---
@@ -186,9 +192,10 @@
 # Run specific module tests
 ./gradlew :domain:auth:allTests
 ./gradlew :domain:user:allTests
-./gradlew :feature-auth:allTests
-./gradlew :feature-home:allTests
-./gradlew :composeApp:allTests
+./gradlew :domain:link-generation:allTests
+./gradlew :services:trackshift-api:allTests
+./gradlew :feature-link-generation:allTests
+./gradlew :feature-profile:allTests
 ```
 
 ### Test Coverage
@@ -197,10 +204,14 @@
 |--------|-------|
 | `domain:auth` | UseCases + Repository |
 | `domain:user` | UseCases + Repository |
+| `domain:link-generation` | UseCases + Repository |
 | `domain:local-storage` | UseCases + Repository |
+| `services:trackshift-api` | API Service (MockEngine) |
 | `feature-auth` | ViewModel |
 | `feature-onboarding` | ViewModel |
 | `feature-home` | ViewModel |
+| `feature-link-generation` | ViewModel |
+| `feature-profile` | ViewModel |
 | `composeApp` | App ViewModel |
 
 ---
@@ -223,6 +234,7 @@ TrackShift/
 ├── domain/
 │   ├── auth/                   # Auth business logic
 │   ├── user/                   # User business logic
+│   ├── link-generation/        # Link generation business logic
 │   └── local-storage/          # Storage business logic
 ├── services/
 │   ├── supabase/               # Supabase integration
@@ -231,6 +243,9 @@ TrackShift/
 ├── feature-auth/               # Auth UI
 ├── feature-onboarding/         # Onboarding UI
 ├── feature-home/               # Home UI (tab container)
+├── feature-link-generation/    # Link generation UI
+│   └── screen/components/      # Extracted components
+├── feature-shift/              # Playlist shift UI
 ├── feature-profile/            # Profile UI
 │   └── screen/components/      # Extracted components
 ├── feature-paywall/            # Subscription paywall
@@ -257,7 +272,8 @@ Custom Gradle convention plugins for consistent configuration:
 - Koin DI
 - Navigation Compose
 - Lifecycle ViewModel
-- Mokkery + AssertK (Testing)
+- kotlinx-collections-immutable
+- Mokkery + AssertK + Turbine (Testing)
 
 ---
 

@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 
 class TrackShiftApiServiceImpl(
     private val httpClient: HttpClient
-): TrackShiftApiService {
+) : TrackShiftApiService {
 
     override suspend fun getUser(
         id: String
@@ -141,7 +141,12 @@ class TrackShiftApiServiceImpl(
                 header(key = "Authorization", value = BuildKonfig.API_SECRET_KEY)
             }
 
-            Result.success(response.body<String>())
+            if (response.status == HttpStatusCode.OK) {
+                Result.success(response.body<String>())
+            } else {
+                Result.failure(Exception(response.status.toString()))
+            }
+
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

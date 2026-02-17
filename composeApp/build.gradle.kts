@@ -11,6 +11,8 @@ kotlin {
             implementation(projects.featureOnboarding)
             implementation(projects.featureProfile)
             implementation(projects.featurePaywall)
+            implementation(projects.featureLinkGeneration)
+            implementation(projects.featureShift)
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
             implementation(projects.core.network)
@@ -22,6 +24,7 @@ kotlin {
             implementation(projects.domain.auth)
             implementation(projects.domain.user)
             implementation(projects.domain.localStorage)
+            implementation(projects.domain.linkGeneration)
             implementation(projects.services.storage)
         }
     }

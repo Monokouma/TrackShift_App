@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isFailure
 import assertk.assertions.isSuccess
+import com.despaircorp.services.trackshift_api.service.request.GenerateLinkRequest
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -153,4 +154,109 @@ class TrackShiftApiServiceImplUnitTest {
         assertThat(result).isFailure()
         assertThat(result.exceptionOrNull()?.message).isEqualTo("Upload failed")
     }
+
+    // region generateTrackShiftUrl
+
+    @Test
+    fun `generateTrackShiftUrl - nominal case returns url string`() = runTest {
+        val trackShiftUrl = "\"https://trackshift.fr/code/abc\""
+        val client = createMockClientWithResponse(trackShiftUrl)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.generateTrackShiftUrl(
+            GenerateLinkRequest(method = "url", images = emptyList(), url = "https://spotify.com/playlist/123")
+        )
+
+        assertThat(result).isSuccess()
+        assertThat(result.getOrNull()).isEqualTo("\"https://trackshift.fr/code/abc\"")
+    }
+
+    @Test
+    fun `generateTrackShiftUrl - error case returns failure on non-OK status`() = runTest {
+        val client = createMockClientWithResponse("", HttpStatusCode.InternalServerError)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.generateTrackShiftUrl(
+            GenerateLinkRequest(method = "url", images = emptyList(), url = "https://spotify.com/playlist/123")
+        )
+
+        assertThat(result).isFailure()
+    }
+
+    @Test
+    fun `generateTrackShiftUrl - error case returns failure on exception`() = runTest {
+        val client = createMockClientThatThrows(Exception("Network error"))
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.generateTrackShiftUrl(
+            GenerateLinkRequest(method = "url", images = emptyList(), url = "https://spotify.com/playlist/123")
+        )
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Network error")
+    }
+
+    // endregion
+
+    // region updateGenerationCount
+
+    @Test
+    fun `updateGenerationCount - nominal case returns true`() = runTest {
+        val client = createMockClientWithResponse("true")
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.updateGenerationCount("user_123")
+
+        assertThat(result).isSuccess()
+        assertThat(result.getOrNull()).isEqualTo(true)
+    }
+
+    @Test
+    fun `updateGenerationCount - error case returns failure on exception`() = runTest {
+        val client = createMockClientThatThrows(Exception("DB error"))
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.updateGenerationCount("user_123")
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("DB error")
+    }
+
+    // endregion
+
+    // region saveConversionToHistory
+
+    @Test
+    fun `saveConversionToHistory - nominal case returns success`() = runTest {
+        val client = createMockClientWithResponse("", HttpStatusCode.OK)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.saveConversionToHistory("user_123", "https://trackshift.fr/code/abc")
+
+        assertThat(result).isSuccess()
+    }
+
+    @Test
+    fun `saveConversionToHistory - error case returns failure on non-OK status`() = runTest {
+        val client = createMockClientWithResponse("", HttpStatusCode.InternalServerError)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.saveConversionToHistory("user_123", "https://trackshift.fr/code/abc")
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Failure while saving a conversion")
+    }
+
+    @Test
+    fun `saveConversionToHistory - error case returns failure on exception`() = runTest {
+        val client = createMockClientThatThrows(Exception("Network error"))
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.saveConversionToHistory("user_123", "https://trackshift.fr/code/abc")
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Network error")
+    }
+
+    // endregion
 }

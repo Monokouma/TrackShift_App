@@ -4,20 +4,20 @@ import com.despaircorp.domain.auth.domain.use_cases.GetCurrentUserIdUseCase
 import com.despaircorp.domain.link_generation.domain.repo.LinkGenerationRepository
 import com.despaircorp.services.trackshift_api.service.request.GenerateLinkRequest
 
-open class GenerateTrackShiftLinkFromPlaylistUrlUseCase(
+open class GenerateTrackShiftLinkFromScreenshotsUseCase(
     private val getCurrentUserIdUseCase: GetCurrentUserIdUseCase,
     private val linkGenerationRepository: LinkGenerationRepository
 ) {
-    open suspend operator fun invoke(url: String): Result<String> {
+    open suspend operator fun invoke(images: List<ByteArray>): Result<String> {
         val userId = getCurrentUserIdUseCase()
             .getOrNull() ?: return Result.failure(Exception("Null id"))
-
+        println(images.size)
         val generatedTrackShiftUrl = linkGenerationRepository
             .generateTrackShiftUrl(
                 request = GenerateLinkRequest(
-                    method = "url",
-                    images = emptyList(),
-                    url = url
+                    method = "screenshot",
+                    images = images,
+                    url = ""
                 )
             ).getOrNull() ?: return Result.failure(Exception("Null trackshift url"))
 

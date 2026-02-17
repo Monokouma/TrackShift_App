@@ -93,6 +93,9 @@ class KmpFeatureConventionPlugin : Plugin<Project> {
                         // DateTime
                         implementation(libs.findLibrary("kotlinx-datetime").get())
 
+                        // Collections Immutable
+                        implementation(libs.findLibrary("kotlinx-collections-immutable").get())
+
                         // Coil (Image loading)
                         implementation(libs.findBundle("coil").get())
 
