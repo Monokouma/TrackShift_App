@@ -1,10 +1,13 @@
 package com.despaircorp.feature_profile.screen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -13,6 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -31,8 +35,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
-import coil3.memory.MemoryCache
 import com.despaircorp.design_system.theme.TrackShiftTheme
 import com.despaircorp.feature_profile.model.UiProfileModel
 import com.despaircorp.feature_profile.screen.components.EditNameDialog
@@ -51,6 +53,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun ProfileScreen(
     modifier: Modifier = Modifier,
+    showSettings: () -> Unit,
     showPaywall: () -> Unit,
     viewModel: ProfileViewModel = koinViewModel()
 ) {
@@ -86,7 +89,8 @@ fun ProfileScreen(
                     },
                     showPaywall = {
                         showPaywall()
-                    }
+                    },
+                    showSettings = showSettings
                 )
             }
 
@@ -102,6 +106,7 @@ fun ProfileScreen(
 private fun ProfileScreenContent(
     userUiProfileModel: UiProfileModel,
     onNameChange: (String) -> Unit,
+    showSettings: () -> Unit,
     onImagePick: (ByteArray) -> Unit,
     showPaywall: () -> Unit,
     modifier: Modifier = Modifier
@@ -131,13 +136,26 @@ private fun ProfileScreenContent(
 
     var nameInput by rememberSaveable { mutableStateOf(userUiProfileModel.username) }
 
-
     Column(
         modifier = modifier
             .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(80.dp))
+        Spacer(Modifier.height(40.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Spacer(Modifier.weight(1f))
+
+            Icon(
+                imageVector = Icons.Outlined.MoreVert,
+                contentDescription = "Settings",
+                tint = MaterialTheme.colorScheme.onBackground,
+                modifier = Modifier.size(60.dp).clickable(true, onClick = showSettings)
+                    .padding(8.dp)
+            )
+
+        }
 
         ProfileNameAndImage(
             onProfilePictureClick = {
@@ -269,6 +287,9 @@ private fun ProfileScreenProContentPreview() {
             },
             showPaywall = {
 
+            },
+            showSettings = {
+
             }
         )
     }
@@ -298,6 +319,9 @@ private fun ProfileScreenFreeContentPreview() {
 
             },
             showPaywall = {
+
+            },
+            showSettings = {
 
             }
         )

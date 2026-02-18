@@ -3,10 +3,6 @@ package com.despaircorp.trackshift.screen
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -19,6 +15,7 @@ import com.despaircorp.feature_auth.screen.AuthScreen
 import com.despaircorp.feature_home.screen.HomeScreen
 import com.despaircorp.feature_onboarding.screen.OnboardingScreen
 import com.despaircorp.feature_paywall.screen.PaywallScreen
+import com.despaircorp.feature_settings.screen.SettingsScreen
 import com.despaircorp.feature_splash_screen.screen.SplashScreen
 import com.despaircorp.navigation.NavigationRoute
 import com.despaircorp.trackshift.ui_state.TrackShiftAppUiState
@@ -89,6 +86,9 @@ fun TrackShiftApp(
             HomeScreen(
                 showPaywall = {
                     navController.navigate(NavigationRoute.Paywall.route)
+                },
+                showSettings = {
+                    navController.navigate(NavigationRoute.Settings.route)
                 }
             )
         }
@@ -113,6 +113,10 @@ fun TrackShiftApp(
 
         composable(NavigationRoute.Paywall.route) {
             PaywallScreen()
+        }
+
+        composable(NavigationRoute.Settings.route) {
+            SettingsScreen()
         }
     }
 }
