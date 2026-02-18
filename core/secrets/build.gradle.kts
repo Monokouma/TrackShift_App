@@ -26,6 +26,9 @@ buildkonfig {
         buildConfigField(STRING, "TRACKSHIFT_API_URL", localProperties.getProperty("TRACKSHIFT_API_URL") ?: "")
         buildConfigField(STRING, "API_SECRET_KEY", localProperties.getProperty("API_SECRET_KEY") ?: "")
 
+        // App
+        buildConfigField(STRING, "VERSION_NAME", "1.0.0")
+
         // RevenueCat
         buildConfigField(STRING, "REVENUE_CAT_TEST_KEY", localProperties.getProperty("REVENUE_CAT_TEST_KEY") ?: "")
         buildConfigField(STRING, "REVENUE_CAT_IOS_KEY", localProperties.getProperty("REVENUE_CAT_IOS_KEY") ?: "")

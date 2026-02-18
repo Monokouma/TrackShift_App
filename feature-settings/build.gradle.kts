@@ -15,8 +15,10 @@ kotlin {
         commonMain.dependencies {
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
+            implementation(projects.core.utils)
+            implementation(projects.core.secrets)
             implementation(projects.domain.user)
-            
+
         }
     }
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -138,10 +139,9 @@ private fun ProfileScreenContent(
 
     Column(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.background),
+            .background(MaterialTheme.colorScheme.background).systemBarsPadding(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Spacer(Modifier.height(40.dp))
         Row(
             modifier = Modifier.fillMaxWidth()
         ) {

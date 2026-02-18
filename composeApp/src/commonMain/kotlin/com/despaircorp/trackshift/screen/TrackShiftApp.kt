@@ -116,7 +116,14 @@ fun TrackShiftApp(
         }
 
         composable(NavigationRoute.Settings.route) {
-            SettingsScreen()
+            SettingsScreen(
+                onBackPress = {
+                    navController.popBackStack()
+                },
+                showPaywall = {
+                    navController.navigate(NavigationRoute.Paywall.route)
+                }
+            )
         }
     }
 }

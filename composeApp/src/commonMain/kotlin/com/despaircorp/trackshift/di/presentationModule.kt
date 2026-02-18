@@ -5,6 +5,7 @@ import com.despaircorp.feature_home.view_model.HomeViewModel
 import com.despaircorp.feature_link_generation.view_model.LinkGenerationViewModel
 import com.despaircorp.feature_onboarding.view_model.OnboardingViewModel
 import com.despaircorp.feature_profile.view_model.ProfileViewModel
+import com.despaircorp.feature_settings.view_model.SettingsViewModel
 import com.despaircorp.feature_shift.view_model.ShiftViewModel
 import com.despaircorp.trackshift.view_model.TrackShiftAppViewModel
 import org.koin.core.module.dsl.viewModel
@@ -53,6 +54,12 @@ val presentationModule = module {
             generateTrackShiftLinkFromPlaylistUrlUseCase = get(),
             getUserDataUseCase = get(),
             generateTrackShiftLinkFromScreenshotsUseCase = get()
+        )
+    }
+
+    viewModel {
+        SettingsViewModel(
+            get()
         )
     }
 }

@@ -243,9 +243,7 @@ private fun LinkGenerationScreenContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
 
-        // --- Section 1: URL ---
         SectionIcon(icon = Icons.Filled.Link)
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -270,7 +268,6 @@ private fun LinkGenerationScreenContent(
             onSubmit = { onUrlSubmit(it) }
         )
 
-        // --- Divider ---
         Spacer(modifier = Modifier.height(40.dp))
 
         OrDivider(
@@ -281,7 +278,6 @@ private fun LinkGenerationScreenContent(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // --- Section 2: Screenshots ---
         SectionIcon(icon = Icons.Filled.CameraAlt)
 
         Spacer(modifier = Modifier.height(16.dp))
