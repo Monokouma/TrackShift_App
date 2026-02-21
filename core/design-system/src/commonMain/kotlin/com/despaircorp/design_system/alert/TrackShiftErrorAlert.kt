@@ -1,4 +1,4 @@
-package com.despaircorp.feature_link_generation.screen.components.alert
+package com.despaircorp.design_system.alert
 
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -9,7 +9,7 @@ import com.despaircorp.design_system.theme.TrackShiftTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
-fun UrlGenerationErrorAlert(
+fun TrackShiftErrorAlert(
     onDismissRequest: () -> Unit,
     errorMessage: String,
     mdofifier: Modifier = Modifier
@@ -31,7 +31,7 @@ fun UrlGenerationErrorAlert(
 @Preview
 private fun UrlGenerationErrorAlertPreview() {
     TrackShiftTheme {
-        UrlGenerationErrorAlert(
+        TrackShiftErrorAlert(
             onDismissRequest = {
 
             },

@@ -8,4 +8,5 @@ interface AuthRepository {
     suspend fun getOAuthUrl(provider: String): Result<String>
     suspend fun handleOAuthCallback(url: String): Result<Unit>
     suspend fun getCurrentUserId(): Result<String>
+    suspend fun logout(): Result<Unit>
 }

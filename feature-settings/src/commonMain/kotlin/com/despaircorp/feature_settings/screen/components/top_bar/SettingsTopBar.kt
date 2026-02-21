@@ -1,4 +1,4 @@
-package com.despaircorp.feature_settings.screen.components
+package com.despaircorp.feature_settings.screen.components.top_bar
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box

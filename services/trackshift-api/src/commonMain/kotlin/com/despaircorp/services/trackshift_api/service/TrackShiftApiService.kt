@@ -29,4 +29,6 @@ interface TrackShiftApiService {
         userId: String, url: String
     ): Result<Unit>
 
+    suspend fun deleteAccount(userId: String): Result<Unit>
+
 }

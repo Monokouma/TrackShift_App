@@ -182,4 +182,33 @@ class AuthRepositoryImplUnitTest {
 
         verifySuspend { service.getCurrentUser() }
     }
+
+    @Test
+    fun `nominal case - logout succeeds`() = runTest(testDispatcher) {
+        val service = mock<SupabaseAuthService>()
+        val repository = AuthRepositoryImpl(service)
+
+        everySuspend { service.logout() } returns Result.success(Unit)
+
+        val result = repository.logout()
+
+        assertThat(result).isSuccess()
+
+        verifySuspend { service.logout() }
+    }
+
+    @Test
+    fun `error case - logout fails`() = runTest(testDispatcher) {
+        val service = mock<SupabaseAuthService>()
+        val repository = AuthRepositoryImpl(service)
+
+        everySuspend { service.logout() } returns Result.failure(Exception("Failure while logging out user"))
+
+        val result = repository.logout()
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Failure while logging out user")
+
+        verifySuspend { service.logout() }
+    }
 }

@@ -3,6 +3,7 @@ package com.despaircorp.services.supabase.service
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.auth
 import io.github.jan.supabase.auth.user.UserInfo
+import io.ktor.http.HttpStatusCode
 import io.ktor.http.encodeURLParameter
 import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.Dispatchers
@@ -70,5 +71,23 @@ class SupabaseAuthServiceImpl(
         } catch (e: Exception) {
             Result.failure(e)
         }
+    }
+
+    override suspend fun logout(): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            supabaseClient.auth.signOut()
+
+            val currentUser = supabaseClient.auth.currentUserOrNull()
+
+            if (currentUser == null)
+                Result.success(Unit)
+            else Result.failure(Exception("Failure while logging out user"))
+
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+
     }
 }

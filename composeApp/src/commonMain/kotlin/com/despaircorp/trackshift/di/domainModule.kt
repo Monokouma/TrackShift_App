@@ -4,9 +4,11 @@ import com.despaircorp.domain.auth.domain.use_cases.AuthByProviderUseCase
 import com.despaircorp.domain.auth.domain.use_cases.GetCurrentUserIdUseCase
 import com.despaircorp.domain.auth.domain.use_cases.HandleOAuthCallbackUseCase
 import com.despaircorp.domain.auth.domain.use_cases.HandleSessionStatusUseCase
+import com.despaircorp.domain.auth.domain.use_cases.LogoutUserUseCase
 import com.despaircorp.domain.link_generation.domain.use_cases.GenerateTrackShiftLinkFromPlaylistUrlUseCase
 import com.despaircorp.domain.link_generation.domain.use_cases.GenerateTrackShiftLinkFromScreenshotsUseCase
 import com.despaircorp.domain.local_storage.domain.use_cases.ManageOnboardStorageUseCase
+import com.despaircorp.domain.user.domain.use_cases.DeleteUserAccountUseCase
 import com.despaircorp.domain.user.domain.use_cases.GetUserDataUseCase
 import com.despaircorp.domain.user.domain.use_cases.IsUserLimitReachUseCase
 import com.despaircorp.domain.user.domain.use_cases.UpdateUserImageUseCase
@@ -33,6 +35,15 @@ val domainModule = module {
         GenerateTrackShiftLinkFromScreenshotsUseCase(
             getCurrentUserIdUseCase = get(),
             linkGenerationRepository = get()
+        )
+    }
+
+    factory { LogoutUserUseCase(authRepository = get()) }
+    factory {
+        DeleteUserAccountUseCase(
+            getCurrentUserIdUseCase = get(),
+            logoutUserUseCase = get(),
+            userRepository = get()
         )
     }
 }

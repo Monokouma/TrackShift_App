@@ -7,5 +7,7 @@ interface UserRepository {
     suspend fun getUser(id: String): Result<User>
     suspend fun updateUserName(newName: String, id: String): Result<Unit>
     suspend fun updateUserImage(image: ByteArray, id: String): Result<Unit>
+    suspend fun deleteAccount(userId: String): Result<Unit>
+
 }
 

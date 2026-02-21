@@ -259,4 +259,40 @@ class TrackShiftApiServiceImplUnitTest {
     }
 
     // endregion
+
+    // region deleteAccount
+
+    @Test
+    fun `deleteAccount - nominal case returns success`() = runTest {
+        val client = createMockClientWithResponse("", HttpStatusCode.OK)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.deleteAccount("user_123")
+
+        assertThat(result).isSuccess()
+    }
+
+    @Test
+    fun `deleteAccount - error case returns failure on non-OK status`() = runTest {
+        val client = createMockClientWithResponse("", HttpStatusCode.InternalServerError)
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.deleteAccount("user_123")
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Failure while saving a conversion")
+    }
+
+    @Test
+    fun `deleteAccount - error case returns failure on exception`() = runTest {
+        val client = createMockClientThatThrows(Exception("Network error"))
+        val service = TrackShiftApiServiceImpl(client)
+
+        val result = service.deleteAccount("user_123")
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Network error")
+    }
+
+    // endregion
 }

@@ -10,4 +10,5 @@ interface SupabaseAuthService {
     suspend fun handleOAuthCallback(url: String): Result<Unit>
 
     suspend fun getCurrentUser(): Result<UserInfo>
+    suspend fun logout(): Result<Unit>
 }

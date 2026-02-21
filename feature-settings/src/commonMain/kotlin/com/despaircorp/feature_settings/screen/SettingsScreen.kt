@@ -33,9 +33,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.despaircorp.core.secrets.BuildKonfig
+import com.despaircorp.design_system.alert.TrackShiftErrorAlert
+import com.despaircorp.design_system.alert.TrackShiftLoadingAlert
 import com.despaircorp.design_system.theme.TrackShiftTheme
-import com.despaircorp.feature_settings.screen.components.SettingsFooter
-import com.despaircorp.feature_settings.screen.components.SettingsTopBar
+import com.despaircorp.feature_settings.screen.components.alert.SettingsSuccessAlert
+import com.despaircorp.feature_settings.screen.components.footer.SettingsFooter
+import com.despaircorp.feature_settings.screen.components.top_bar.SettingsTopBar
 import com.despaircorp.feature_settings.ui_state.SettingsUiState
 import com.despaircorp.feature_settings.view_model.SettingsViewModel
 import com.despaircorp.utils.PlatformUtils
@@ -67,7 +70,9 @@ fun SettingsScreen(
         onEventConsume = viewModel::onEventConsumed,
         onManageSubscriptionClick = {
             subscriptionsManager.openSubscriptionManagement()
-        }
+        },
+        onLogoutClick = viewModel::onLogout,
+        onDeleteAccountClick = viewModel::onDeleteAccount
     )
 }
 
@@ -76,9 +81,11 @@ private fun SettingsScreenContent(
     showPaywall: () -> Unit,
     onBackPress: () -> Unit,
     onManageSubscriptionClick: () -> Unit,
-    modifier: Modifier = Modifier,
     uiState: State<SettingsUiState>,
-    onEventConsume: () -> Unit
+    onEventConsume: () -> Unit,
+    onLogoutClick: () -> Unit,
+    onDeleteAccountClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
     var showLoading by rememberSaveable {
@@ -125,6 +132,23 @@ private fun SettingsScreenContent(
         }
     }
 
+    if (showSuccessPopUp) {
+        SettingsSuccessAlert()
+    }
+
+    if (showErrorPopUp) {
+        TrackShiftErrorAlert(
+            onDismissRequest = {
+                showErrorPopUp = false
+            },
+            errorMessage = errorMessage
+        )
+    }
+
+    if (showLoading) {
+        TrackShiftLoadingAlert()
+    }
+
     Column(
         modifier = modifier.background(MaterialTheme.colorScheme.background).fillMaxSize()
             .systemBarsPadding(),
@@ -169,7 +193,7 @@ private fun SettingsScreenContent(
         Spacer(Modifier.weight(1f))
 
         Button(
-            onClick = { onManageSubscriptionClick() },
+            onClick = { onLogoutClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp)
@@ -199,7 +223,7 @@ private fun SettingsScreenContent(
         }
 
         Button(
-            onClick = { onManageSubscriptionClick() },
+            onClick = { onDeleteAccountClick() },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(24.dp)
@@ -243,11 +267,17 @@ private fun SettingsScreenContentPreview() {
         SettingsScreenContent(
             showPaywall = {},
             onBackPress = {},
-            uiState = mutableStateOf(SettingsUiState.Nominal(isUserPro = true)),
-            onEventConsume = {
+            onManageSubscriptionClick = {
 
             },
-            onManageSubscriptionClick = {
+            uiState = mutableStateOf(SettingsUiState.Nominal(isUserPro = true)),
+            onLogoutClick = {
+
+            },
+            onDeleteAccountClick = {
+
+            },
+            onEventConsume = {
 
             }
         )

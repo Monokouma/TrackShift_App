@@ -59,7 +59,9 @@ val presentationModule = module {
 
     viewModel {
         SettingsViewModel(
-            get()
+            getUserDataUseCase = get(),
+            logoutUserUseCase = get(),
+            deleteUserAccountUseCase = get()
         )
     }
 }

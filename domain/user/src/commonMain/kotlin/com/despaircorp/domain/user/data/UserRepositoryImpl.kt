@@ -7,7 +7,7 @@ import com.despaircorp.services.trackshift_api.service.TrackShiftApiService
 
 class UserRepositoryImpl(
     private val trackShiftApiService: TrackShiftApiService
-): UserRepository {
+) : UserRepository {
 
     override suspend fun getUser(
         id: String
@@ -17,10 +17,14 @@ class UserRepositoryImpl(
             userDto.toDomain() ?: throw Exception("Invalid user data")
         }
 
-    override suspend fun updateUserName(newName: String, id: String): Result<Unit> = trackShiftApiService.updateUsername(newName, id)
+    override suspend fun updateUserName(newName: String, id: String): Result<Unit> =
+        trackShiftApiService.updateUsername(newName, id)
 
     override suspend fun updateUserImage(
         image: ByteArray,
         id: String
     ): Result<Unit> = trackShiftApiService.updateUserImage(image, id)
+
+    override suspend fun deleteAccount(userId: String): Result<Unit> =
+        trackShiftApiService.deleteAccount(userId)
 }

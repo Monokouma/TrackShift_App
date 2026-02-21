@@ -18,7 +18,7 @@ kotlin {
             implementation(projects.core.utils)
             implementation(projects.core.secrets)
             implementation(projects.domain.user)
-
+            implementation(projects.domain.auth)
         }
     }
 }

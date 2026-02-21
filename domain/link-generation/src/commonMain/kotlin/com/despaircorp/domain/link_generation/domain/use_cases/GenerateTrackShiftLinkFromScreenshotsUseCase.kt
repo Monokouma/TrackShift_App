@@ -11,7 +11,7 @@ open class GenerateTrackShiftLinkFromScreenshotsUseCase(
     open suspend operator fun invoke(images: List<ByteArray>): Result<String> {
         val userId = getCurrentUserIdUseCase()
             .getOrNull() ?: return Result.failure(Exception("Null id"))
-        println(images.size)
+
         val generatedTrackShiftUrl = linkGenerationRepository
             .generateTrackShiftUrl(
                 request = GenerateLinkRequest(

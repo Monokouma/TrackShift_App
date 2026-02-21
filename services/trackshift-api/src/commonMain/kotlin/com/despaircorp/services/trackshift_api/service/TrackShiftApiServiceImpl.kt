@@ -200,4 +200,26 @@ class TrackShiftApiServiceImpl(
             Result.failure(e)
         }
     }
+
+    override suspend fun deleteAccount(userId: String): Result<Unit> = withContext(Dispatchers.IO) {
+        try {
+            val response = httpClient.submitFormWithBinaryData(
+                url = "${BuildKonfig.TRACKSHIFT_API_URL}delete_user_profile",
+                formData = formData {
+                    append("user_id", userId)
+                }
+            ) {
+                header("Authorization", value = BuildKonfig.API_SECRET_KEY)
+            }
+
+            if (response.status == HttpStatusCode.OK)
+                Result.success(Unit)
+            else Result.failure(Exception("Failure while saving a conversion"))
+
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            Result.failure(e)
+        }
+    }
 }
