@@ -13,12 +13,12 @@ kotlin {
             implementation(projects.featurePaywall)
             implementation(projects.featureLinkGeneration)
             implementation(projects.featureShift)
+            implementation(projects.featureSettings)
             implementation(projects.core.designSystem)
             implementation(projects.core.navigation)
             implementation(projects.core.network)
             implementation(projects.core.secrets)
             implementation(projects.core.utils)
-
             implementation(projects.services.supabase)
             implementation(projects.services.trackshiftApi)
             implementation(projects.domain.auth)

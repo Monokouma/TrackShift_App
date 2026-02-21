@@ -41,6 +41,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(
     showPaywall: () -> Unit,
+    showSettings: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: HomeViewModel = koinViewModel()
 ) {
@@ -52,7 +53,8 @@ fun HomeScreen(
         modifier = modifier,
         showPaywall = {
             showPaywall()
-        }
+        },
+        showSettings = showSettings
     )
 }
 
@@ -60,6 +62,7 @@ fun HomeScreen(
 private fun HomeContent(
     uiState: HomeUiState,
     onTabSelect: (HomeTab) -> Unit,
+    showSettings: () -> Unit,
     showPaywall: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -77,7 +80,8 @@ private fun HomeContent(
                 HomeTab.PROFILE -> ProfileScreen(
                     showPaywall = {
                         showPaywall()
-                    }
+                    },
+                    showSettings = showSettings
                 )
 
                 HomeTab.SHIFT -> ShiftScreen(
@@ -225,6 +229,9 @@ private fun HomeScreenPreview() {
 
             },
             showPaywall = {
+
+            },
+            showSettings = {
 
             }
         )

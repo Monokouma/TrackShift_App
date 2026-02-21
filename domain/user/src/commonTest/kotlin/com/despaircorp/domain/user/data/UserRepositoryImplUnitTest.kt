@@ -135,6 +135,33 @@ class UserRepositoryImplUnitTest {
         assertThat(result.exceptionOrNull()?.message).isEqualTo("Upload failed")
     }
 
+    @Test
+    fun `deleteAccount - returns success when api succeeds`() = runTest {
+        val userId = "user_123"
+
+        everySuspend { trackShiftApiService.deleteAccount(userId) } returns Result.success(Unit)
+
+        val repository = UserRepositoryImpl(trackShiftApiService)
+        val result = repository.deleteAccount(userId)
+
+        assertThat(result).isSuccess()
+
+        verifySuspend { trackShiftApiService.deleteAccount(userId) }
+    }
+
+    @Test
+    fun `deleteAccount - returns failure when api fails`() = runTest {
+        val userId = "user_123"
+
+        everySuspend { trackShiftApiService.deleteAccount(userId) } returns Result.failure(Exception("Delete failed"))
+
+        val repository = UserRepositoryImpl(trackShiftApiService)
+        val result = repository.deleteAccount(userId)
+
+        assertThat(result).isFailure()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo("Delete failed")
+    }
+
     private fun provideUserDto() = UserDto(
         id = "user_123",
         displayName = "Monokouma",

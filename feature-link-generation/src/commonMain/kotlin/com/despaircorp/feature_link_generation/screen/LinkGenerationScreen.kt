@@ -36,9 +36,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.despaircorp.design_system.alert.TrackShiftErrorAlert
+import com.despaircorp.design_system.alert.TrackShiftLoadingAlert
 import com.despaircorp.design_system.theme.TrackShiftTheme
-import com.despaircorp.feature_link_generation.screen.components.alert.UrlGenerationErrorAlert
-import com.despaircorp.feature_link_generation.screen.components.alert.UrlGenerationLoadingAlert
 import com.despaircorp.feature_link_generation.screen.components.alert.UrlGenerationSuccessAlert
 import com.despaircorp.feature_link_generation.screen.components.divider.OrDivider
 import com.despaircorp.feature_link_generation.screen.components.header.SectionIcon
@@ -224,7 +224,7 @@ private fun LinkGenerationScreenContent(
     }
 
     if (showErrorPopUp) {
-        UrlGenerationErrorAlert(
+        TrackShiftErrorAlert(
             onDismissRequest = {
                 showErrorPopUp = false
             },
@@ -233,7 +233,7 @@ private fun LinkGenerationScreenContent(
     }
 
     if (showLoading) {
-        UrlGenerationLoadingAlert()
+        TrackShiftLoadingAlert()
     }
 
     Column(
@@ -243,9 +243,7 @@ private fun LinkGenerationScreenContent(
             .verticalScroll(rememberScrollState()),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
 
-        // --- Section 1: URL ---
         SectionIcon(icon = Icons.Filled.Link)
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -270,7 +268,6 @@ private fun LinkGenerationScreenContent(
             onSubmit = { onUrlSubmit(it) }
         )
 
-        // --- Divider ---
         Spacer(modifier = Modifier.height(40.dp))
 
         OrDivider(
@@ -281,7 +278,6 @@ private fun LinkGenerationScreenContent(
 
         Spacer(modifier = Modifier.height(40.dp))
 
-        // --- Section 2: Screenshots ---
         SectionIcon(icon = Icons.Filled.CameraAlt)
 
         Spacer(modifier = Modifier.height(16.dp))

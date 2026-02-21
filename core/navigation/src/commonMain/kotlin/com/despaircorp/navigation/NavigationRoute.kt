@@ -9,7 +9,9 @@ sealed class NavigationRoute(val route: String) {
 
     object Onboard : NavigationRoute("onboard")
 
-    object Paywall: NavigationRoute("paywall")
+    object Paywall : NavigationRoute("paywall")
+
+    object Settings : NavigationRoute("settings")
 }
 
 
